@@ -379,9 +379,9 @@
                         <ul id="selected-extras" style="font-size: 0.8em;"></ul>
                         <p id="frequency-discount"></p>
                         <div id="discount-amount"></div>
-                        <h3 id="total-price-container">Total: $<span id="total">130.00</span>
-                            <span style="font-size: 0.65em; color: black; margin-left: 5px;">(including GST)</span>
-                        </h3>
+                        <h3 id="total-price-container">Total: $<span id="total">130.00</span></h3>
+                        <input type="text" id="total-price-input" readonly />
+
                     </div>
 
                     <!-- Credit Card Details -->

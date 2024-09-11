@@ -201,28 +201,46 @@
         </div>
     </section>
     <!-- discount area end  -->
+    <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
     <script>
-        document.getElementById('book-now').addEventListener('click', function(event) {
-            event.preventDefault(); // Prevent default link behavior
+        // this code for service section 
+        $(document).ready(function() {
+            $('#book-now').on('click', function(event) {
+                event.preventDefault(); // Prevent default link behavior
 
-            // Helper function to encode value and replace '%20' with '+'
-            const getEncodedValue = id => {
-                const value = document.getElementById(id).value;
-                return encodeURIComponent(value).replace(/%20/g, '+');
-            };
+                // Helper function to encode value and replace '%20' with '+'
+                const getEncodedValue = (id) => {
+                    const value = $(`#${id}`).val();
+                    return encodeURIComponent(value).replace(/%20/g, '+');
+                };
 
-            const firstName = getEncodedValue('first-name');
-            const lastName = getEncodedValue('last-name');
-            const email = getEncodedValue('email');
-            const service = getEncodedValue('service');
-            const bathroom = getEncodedValue('bathroom');
-            const frequency = getEncodedValue('frequency');
+                // Get form values
+                const firstName = getEncodedValue('first-name');
+                const lastName = getEncodedValue('last-name');
+                const email = $(`#email`).val();
+                const service = getEncodedValue('service');
+                const bathroom = getEncodedValue('bathroom');
+                const frequency = getEncodedValue('frequency');
 
-            // Create query parameters manually
-            const params =
-                `first-name=${firstName}&last-name=${lastName}&email=${email}&service=${service}&bathroom=${bathroom}&frequency=${frequency}`;
-            // Redirect with the query parameters
-            window.location.href = '/book-now?' + params;
+                // Check email validity only if email is provided
+                if (email && !validateEmail(email)) {
+                    alert('Please enter a valid email address.');
+                    return;
+                }
+
+                // Encode the email address
+                const encodedEmail = encodeURIComponent(email).replace(/%20/g, '+');
+
+                // Create query parameters manually
+                const params = `first-name=${firstName}&last-name=${lastName}&email=${encodedEmail}&service=${service}&bathroom=${bathroom}&frequency=${frequency}`;
+                window.location.href = '/book-now?' + params;
+            });
+
+            // Function to validate email address
+            function validateEmail(email) {
+                const re = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+                return re.test(email);
+            }
         });
     </script>
 @endsection
