@@ -160,7 +160,6 @@ $(document).ready(function () {
         if (discountCode === 'WELCOME10%') {
             discountAmount = total * 0.10;
             $('#discount-amount').text(`Discount (10%): -$${discountAmount.toFixed(2)}`);
-            $('#total-price-3').val(discountAmount.toFixed(2));
         } else {
             discountAmount = 0;
             $('#discount-amount').text('');
@@ -333,9 +332,7 @@ $(document).ready(function () {
             });
 
             // Get the final total value from the input or text element
-            let discountAmount = parseFloat($('#total-price-2').val());
-            let couponDiscountAmount = parseFloat($('#total-price-3').val());
-            console.log(couponDiscountAmount);
+            let discountAmount = parseFloat($('#total-price-2').val())
             let finalTotal = parseFloat($('#total-price-input').val());
             const frequency = $('input[name="frequency"]:checked').val();
 
@@ -355,49 +352,120 @@ $(document).ready(function () {
                 $('#frequency-discount').text('');
             }
             // Prepare the data to be sent to the server
-            const bookingData = { // Convert to JSON
+            const bookingData = {
+                finalTotal: finalTotal,
+                totalExtras: extrasTotal.toFixed(2), // Include total extras in the data
+                extras: window.extrasObject, // Convert to JSON
                 firstName: $('#first-name').val(),
                 lastName: $('#last-name').val(),
                 email: $('#email').val(),
                 phone: $('#phone').val(),
-                street: $('#street').val(),
-                apt: $('#apt').val(),
-                city: $('#city').val(),
-                postalCode: $('#postal-code').val(),
                 service: $('#service').val(),
                 bathroom: $('#bathroom').val(),
-                typeOfService: $('#type-of-service').val(),
-                storey: $('#storey').val(),
                 frequency: frequency,
-                day: $('#day').val(),
-                time: $('#time').val(),
+                typeOfService: $('#type-of-service').val(),
                 discountPercentage: discountPercentage * 100, // Convert to percentage
                 ...(discountAmount ? { discountAmount: discountAmount } : {}), // Include discount amount
-                ...(couponDiscountAmount ? { couponDiscountAmount: couponDiscountAmount } : {}), // Include discount amount
-                extras: window.extrasObject,
-                totalExtras: extrasTotal.toFixed(2), // Include total extras in the data
-                finalTotal: finalTotal,
             };
 
-            console.log(bookingData);
-
             // AJAX request
-            // $.ajax({
-            //     url: '/booking/store',
-            //     method: 'POST',
-            //     data: bookingData,
-            //     success: function (response) {
-            //         console.log('Booking successful:', response);
-            //         alert('Booking completed successfully!');
-            //     },
-            //     error: function (xhr) {
-            //         console.error('Booking failed:', xhr.responseText);
-            //         alert('An error occurred while completing the booking.');
-            //     }
-            // });
-        }else{
-            console.log("Please fill all the field");
+            $.ajax({
+                url: '/booking/store',
+                method: 'POST',
+                data: bookingData,
+                success: function (response) {
+                    console.log('Booking successful:', response);
+                    alert('Booking completed successfully!');
+                },
+                error: function (xhr) {
+                    console.error('Booking failed:', xhr.responseText);
+                    alert('An error occurred while completing the booking.');
+                }
+            });
         }
     });
+
+    // $('#complete-booking-button').click(function (event) {
+    //     event.preventDefault();
+
+    //     const typeOfService = $('#type-of-service').val();
+    //     const $organisationAddon = $('.extra-item[data-price="80"]');
+    //     const $organisationCounter = $organisationAddon.find('.counter');
+
+    //     if (typeOfService === 'Organisation by the Hour' && (!$organisationAddon.hasClass('highlighted') || !$organisationCounter.text() || parseInt($organisationCounter.text()) < 1)) {
+    //         alert('Please select "Organisation by the Hour $80/2 hours" quantity.');
+    //         return;
+    //     }
+
+    //     // Recalculate the total to ensure it's up to date
+    //     calculateTotal();
+
+    //     // Calculate the total extras amount
+    //     let extrasTotal = 0;
+    //     $('.extra-item.highlighted').each(function () {
+    //         const price = parseFloat($(this).data('price'));
+    //         const count = parseInt($(this).find('.counter').text()) || 1; // Default to 1 if no counter text
+    //         extrasTotal += price * count;
+    //     });
+
+    //     // Get the final total value from the input or text element
+    //     const finalTotal = $('#total-price-input').val(); // or $('#total').text() if using a text element
+
+    //     // Prepare the data to be sent to the server
+
+
+    //     //for validation
+    //     $('.error-message').text('');
+
+    //     // Initialize a flag to check if all fields are valid
+    //     let allFieldsValid = true;
+
+    //     // Validate each field
+    //     const fields = [
+    //         { id: '#first-name', name: 'firstName' },
+    //         { id: '#last-name', name: 'lastName' },
+    //         { id: '#email', name: 'email' },
+    //         { id: '#phone', name: 'phone' },
+    //     ];
+
+    //     fields.forEach(field => {
+    //         const value = $(field.id).val().trim();
+    //         if (!value) {
+    //             allFieldsValid = false;
+    //             $(`${field.id}-error`).text(`The ${field.name} field is required.`);
+    //         }
+    //     });
+    //     if (allFieldsValid) {
+    //         const bookingData = {
+    //             finalTotal: finalTotal,
+    //             totalExtras: extrasTotal.toFixed(2), // Include total extras in the data
+    //             extras: window.extrasObject,
+    //             // Include other form data
+    //             firstName: $('#first-name').val(),
+    //             lastName: $('#last-name').val(),
+    //             email: $('#email').val(),
+    //             phone: $('#phone').val(), // New field for phone number
+    //             service: $('#service').val(), // Existing field for service
+    //             bathroom: $('#bathroom').val(),
+    //             frequency: $('input[name="frequency"]:checked').val(),
+    //             typeOfService: $('#type-of-service').val(),
+    //         };
+
+    //         $.ajax({
+    //             url: '/booking/store', // Use relative URL if hosted on the same domain
+    //             method: 'POST',
+    //             data: bookingData,
+    //             success: function (response) {
+    //                 console.log('Booking successful:', response);
+    //                 alert('Booking completed successfully!');
+    //             },
+    //             error: function (xhr) {
+    //                 console.error('Booking failed:', xhr.responseText);
+    //                 alert('An error occurred while completing the booking.');
+    //             }
+    //         });
+    //     }
+    // });
+
 });
 

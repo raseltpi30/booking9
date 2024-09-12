@@ -385,6 +385,7 @@
                         <h3 id="total-price-container">Total: $<span id="total">130.00</span></h3>
                         <input type="text" id="total-price-input" readonly />
                         <input type="text" id="total-price-2" readonly />
+                        <input type="text" id="total-price-3" readonly />
                     </div>
 
                     <!-- Credit Card Details -->

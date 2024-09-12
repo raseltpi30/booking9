@@ -25,6 +25,7 @@ class BookingController extends Controller
             'typeOfService' => $request->input('typeOfService'),
             'discountPercentage' => $request->input('discountPercentage'),
             'discountAmount' => $request->input('discountAmount'),
+            'couponDiscountAmount' => $request->input('couponDiscountAmount'),
         ]);
 
         // Return a response

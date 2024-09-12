@@ -103,7 +103,7 @@
                     </div>
                 </div>
             </div>
-            <a href="/book-now-" class="book-now-button">Book Now!</a>
+            <a href="{{route('book-now')}}" class="book-now-button">Book Now!</a>
         </div>
     </section>
     <!-- how it works area end  -->
@@ -203,7 +203,7 @@
     <!-- discount area end  -->
     <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
     <script>
-        // this code for service section 
+        // this code for service section
         $(document).ready(function() {
             $('#book-now').on('click', function(event) {
                 event.preventDefault(); // Prevent default link behavior

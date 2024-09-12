@@ -18,11 +18,12 @@ return new class extends Migration
             $table->string('bathroom')->nullable();
             $table->string('frequency')->nullable();
             $table->string('typeOfService')->nullable();
-            $table->decimal('finalTotal', 10, 2)->nullable();
-            $table->decimal('totalExtras', 10, 2)->nullable();
             $table->text('extras')->nullable();
-            $table->decimal('discountPercentage', 5, 2)->nullable(); // Discount percentage
-            $table->decimal('discountAmount', 10, 2)->nullable();
+            $table->integer('discountPercentage')->nullable(); // Discount percentage
+            $table->decimal('discountAmount', 10, 2)->nullable()->default(0);
+            $table->decimal('couponDiscountAmount', 10, 2)->nullable()->default(0);
+            $table->decimal('totalExtras', 10, 2)->nullable()->default(0);
+            $table->decimal('finalTotal', 10, 2)->nullable();
             $table->timestamps();
         });
     }
