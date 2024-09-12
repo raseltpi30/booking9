@@ -12,20 +12,24 @@
                             <div class="booking-page grid-item">
                                 <label for="first-name">First Name *</label>
                                 <input type="text" id="first-name" name="first-name" required>
+                                <div id="first-name-error" class="error-message"></div>
                             </div>
                             <div class="booking-page grid-item">
                                 <label for="last-name">Last Name *</label>
                                 <input type="text" id="last-name" name="last-name" required>
+                                <div id="last-name-error" class="error-message"></div>
                             </div>
                         </div>
                         <div class="booking-page form-group">
                             <div class="booking-page grid-item">
                                 <label for="email">Email Address *</label>
                                 <input type="email" id="email" name="email" required>
+                                <div id="email-error" class="error-message"></div>
                             </div>
                             <div class="booking-page grid-item">
                                 <label for="phone">Phone Number *</label>
                                 <input type="tel" id="phone" name="phone" required>
+                                <div id="phone-error" class="error-message"></div>
                             </div>
                         </div>
                         <div class="booking-page checkbox-group">
@@ -327,7 +331,6 @@
                                 <label for="other-entry">Other </label>
                             </div>
                         </div>
-
                         <h2 id="yui_3_17_2_1_1721228574982_732">Any information you'd like to share?</h2>
                         <p>Provide us with more details.</p>
                         <div class="booking-page form-group">
@@ -381,7 +384,7 @@
                         <div id="discount-amount"></div>
                         <h3 id="total-price-container">Total: $<span id="total">130.00</span></h3>
                         <input type="text" id="total-price-input" readonly />
-
+                        <input type="text" id="total-price-2" readonly />
                     </div>
 
                     <!-- Credit Card Details -->

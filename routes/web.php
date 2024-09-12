@@ -20,4 +20,5 @@ Route::group(['namespace' => 'App\Http\Controllers\frontend'],function(){
     Route::get('/services','PagesController@services')->name('services');
     Route::get('/faq','PagesController@faq')->name('faq');
     Route::get('/quotes','PagesController@quotes')->name('quotes');
+    Route::post('/booking/store','BookingController@store')->name('booking.store');
 });
