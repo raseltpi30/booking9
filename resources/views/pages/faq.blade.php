@@ -1,4 +1,7 @@
 @extends('layouts.app')
+@section('title')
+Faq
+@endsection
 @section('main_content')
     <div class="faq-container">
         <h2 id="yui_3_17_2_1_1721049301493_435">Frequently Asked Questions</h2>

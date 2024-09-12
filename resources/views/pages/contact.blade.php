@@ -1,4 +1,7 @@
 @extends('layouts.app')
+@section('title')
+Contact
+@endsection 
 @section('main_content')
     <div class="contact-container">
         <div class="contact-info">

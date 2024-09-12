@@ -1,4 +1,7 @@
 @extends('layouts.app')
+@section('title')
+Services
+@endsection
 @section('main_content')
     <div class="services-section">
         <!-- General Cleaning -->

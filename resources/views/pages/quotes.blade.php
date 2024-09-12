@@ -1,4 +1,7 @@
 @extends('layouts.app')
+@section('title')
+Commercial Quotes
+@endsection
 @section('main_content')
     <section class="form-section">
         <form class="quote-form" action="https://formspree.io/f/xzzpdkpz" method="POST" onsubmit="return handleSubmit(event)">

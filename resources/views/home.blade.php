@@ -1,4 +1,7 @@
 @extends('layouts.app')
+@section('title')
+Home
+@endsection
 @section('main_content')
     <!-- main start  -->
     <!-- new-service start  -->
