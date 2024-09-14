@@ -13,12 +13,14 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::group(['namespace' => 'App\Http\Controllers\frontend'],function(){
-    Route::get('/','IndexController@index')->name('home');
-    Route::get('/book-now','PagesController@booking')->name('book-now');
-    Route::get('/contact','PagesController@contact')->name('contact');
-    Route::get('/services','PagesController@services')->name('services');
-    Route::get('/faq','PagesController@faq')->name('faq');
-    Route::get('/quotes','PagesController@quotes')->name('quotes');
-    Route::post('/booking/store','BookingController@store')->name('booking.store');
+Route::group(['namespace' => 'App\Http\Controllers\frontend'], function () {
+    Route::get('/', 'IndexController@index')->name('home');
+    Route::get('/book-now', 'PagesController@booking')->name('book-now');
+    Route::get('/contact', 'PagesController@contact')->name('contact');
+    Route::get('/services', 'PagesController@services')->name('services');
+    Route::get('/faq', 'PagesController@faq')->name('faq');
+    Route::get('/quotes', 'PagesController@quotes')->name('quotes');
+    Route::post('/booking/store', 'BookingController@store')->name('booking.store');
+    Route::get('/success', 'BookingController@success')->name('payment.success');
+    Route::get('/cancel', 'BookingController@success')->name('payment.cancel');
 });

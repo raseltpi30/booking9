@@ -62,8 +62,6 @@ body.booking-page {
 .booking-page .form-content {
     flex: 1.85;
     margin-right: 20px;
-    padding-bottom: 180px;
-    /* Add this line to increase the bottom padding */
 }
 
 

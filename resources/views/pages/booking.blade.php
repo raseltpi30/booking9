@@ -14,29 +14,29 @@
                         <div class="booking-page form-group">
                             <div class="booking-page grid-item">
                                 <label for="first-name">First Name *</label>
-                                <input type="text" id="first-name" name="first-name" required>
+                                <input type="text" id="first-name" name="first-name" >
                                 <div id="first-name-error" class="error-message"></div>
                             </div>
                             <div class="booking-page grid-item">
                                 <label for="last-name">Last Name *</label>
-                                <input type="text" id="last-name" name="last-name" required>
+                                <input type="text" id="last-name" name="last-name" >
                                 <div id="last-name-error" class="error-message"></div>
                             </div>
                         </div>
                         <div class="booking-page form-group">
                             <div class="booking-page grid-item">
                                 <label for="email">Email Address *</label>
-                                <input type="email" id="email" name="email" required>
+                                <input type="email" id="email" name="email" >
                                 <div id="email-error" class="error-message"></div>
                             </div>
                             <div class="booking-page grid-item">
                                 <label for="phone">Phone Number *</label>
-                                <input type="tel" id="phone" name="phone" required>
+                                <input type="tel" id="phone" name="phone" >
                                 <div id="phone-error" class="error-message"></div>
                             </div>
                         </div>
                         <div class="booking-page checkbox-group">
-                            <input type="checkbox" id="consent" name="consent" required>
+                            <input type="checkbox" id="consent" name="consent" >
                             <label for="consent">I'm giving my consent to receive SMS and email notifications</label>
                         </div>
 
@@ -45,7 +45,8 @@
                         <div class="booking-page form-group">
                             <div class="booking-page grid-item">
                                 <label for="street">Street *</label>
-                                <input type="text" id="street" name="street" required>
+                                <input type="text" id="street" name="street" >
+                                <div id="street-error" class="error-message"></div>
                             </div>
                             <div class="booking-page grid-item">
                                 <label for="apt">Apt #</label>
@@ -55,11 +56,13 @@
                         <div class="booking-page form-group">
                             <div class="booking-page grid-item">
                                 <label for="city">City *</label>
-                                <input type="text" id="city" name="city" required>
+                                <input type="text" id="city" name="city" >
+                                <div id="city-error" class="error-message"></div>
                             </div>
                             <div class="booking-page grid-item">
                                 <label for="postal-code">Postcode *</label>
-                                <input type="text" id="postal-code" name="postal-code" required>
+                                <input type="text" id="postal-code" name="postal-code" >
+                                <div id="postal-code-error" class="error-message"></div>
                             </div>
                         </div>
 
@@ -264,6 +267,7 @@
                             <div class="booking-page grid-item">
                                 <label for="day">Pick a day</label>
                                 <input type="date" id="day" name="day">
+                                <div id="day-error" class="error-message"></div>
                             </div>
                             <div class="booking-page grid-item">
                                 <label for="time">Pick a time</label>
@@ -290,6 +294,7 @@
                                     <option value="16:30">4:30 PM</option>
                                     <option value="17:00">5:00 PM</option>
                                 </select>
+                                <div id="time-error" class="error-message"></div>
                             </div>
                         </div>
 
@@ -340,6 +345,25 @@
                             <div class="booking-page grid-item-full">
                                 <textarea id="notes" name="notes" placeholder="Property access information, your dog's name, etc"></textarea>
                             </div>
+                        </div>
+                        <div class="card-container">
+                            <h2 id="yui_3_17_2_1_1721228574982_747">Credit Card Details</h2>
+                            <p>Enter your card information below. You will be charged after service has been rendered.</p>
+                            <div class="card-error-new">
+                                <div class="error-alert">
+                                    <div class="error-icon">✖</div>
+                                    <div class="error-card-message">
+                                        <strong>Something went wrong</strong>
+                                        <p style="margin: 0">Please complete the form to submit.</p>
+                                    </div>
+                                    <div class="card-close">✖</div>
+                                </div>
+                            </div>
+                            <div id="card-element">
+                                <!-- A Stripe Element will be inserted here. -->
+                            </div>
+                            <div id="card-errors" role="alert"></div> <!-- Display card errors -->
+                            <button type="submit" id="complete-booking-button">Complete Booking</button>
                         </div>
                     </form>
                 </div>
@@ -392,17 +416,51 @@
                     </div>
 
                     <!-- Credit Card Details -->
-                    <div class="container">
-                        <h2 id="yui_3_17_2_1_1721228574982_747">Credit Card Details</h2>
-                        <p>Enter your card information below. You will be charged after service has been rendered.</p>
-                        <div id="card-element">
-                            <!-- A Stripe Element will be inserted here. -->
-                        </div>
-                        <div id="card-errors" role="alert"></div> <!-- Display card errors -->
-                        <button type="submit" id="complete-booking-button">Complete Booking</button>
-                    </div>
+
                 </div>
             </div>
     </section>
     <!-- main end  -->
 @endsection
+
+
+<style>
+    .card-error-new {
+        display: none;
+    }
+
+    .error-alert {
+        display: flex;
+        align-items: center;
+        background-color: #ffeeee;
+        color: #d9534f;
+        padding: 5px 20px;
+        border-radius: 5px;
+        font-family: Arial, sans-serif;
+        width: 100%;
+        position: relative;
+        margin-bottom: 20px;
+    }
+
+    .error-alert .error-icon {
+        background: #f56c6c;
+        color: #fff;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        border-radius: 100%;
+        height: 10;
+        width: 10px;
+        height: 10px;
+        padding: 12px;
+        margin-right: 15px;
+    }
+
+    .card-close {
+        position: absolute;
+        top: 10%;
+        z-index: 100;
+        cursor: pointer;
+        right: 2%;
+    }
+</style>
