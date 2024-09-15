@@ -295,6 +295,33 @@ $(document).ready(function () {
             'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content'),
         }
     });
+
+    // Initialize Stripe
+    var stripe = Stripe('pk_test_51PylzqRq0gWoIKN4CJpBWQP5AOiDUYAUZ8V4bsG2vKKRRWYO3j1eD90VYwpGhWstTlz3fJRDPifKUzvSJpIIWF4B00Wl8MLfdK'); // Replace with your Stripe public key
+    var elements = stripe.elements();
+    var style = {
+        base: {
+            color: '#32325d',
+            fontFamily: '"Helvetica Neue", Helvetica, sans-serif',
+            fontSmoothing: 'antialiased',
+            fontSize: '16px',
+            '::placeholder': {
+                color: '#aab7c4'
+            }
+        },
+        invalid: {
+            color: '#fa755a',
+            iconColor: '#fa755a'
+        }
+    };
+
+    // Create a card element without the ZIP/postal code field
+    var card = elements.create('card', {
+        style: style,
+        hidePostalCode: true
+    });
+    card.mount('#card-element');
+
     $('#complete-booking-button').click(function (event) {
         event.preventDefault(); // Prevent the default form submission
 
@@ -329,6 +356,9 @@ $(document).ready(function () {
             // Recalculate the total to ensure it's up to date
             calculateTotal();
             // Calculate the total extras amount
+            $('.loader').show();
+
+            $('.card-error-new').hide();
             let extrasTotal = 0;
             $('.extra-item.highlighted').each(function () {
                 const price = parseFloat($(this).data('price'));
@@ -363,6 +393,9 @@ $(document).ready(function () {
                     // Display error.message in your UI
                     alert('not right');
                 } else {
+                    $('#complete-booking-button').css('background','red');
+                    // $('.loader').show();
+
                     // Send the token and booking data to the server
                     const bookingData = {
                         firstName: $('#first-name').val(),
@@ -388,16 +421,20 @@ $(document).ready(function () {
                         finalTotal: finalTotal,
                         stripeToken: result.token.id // Include the Stripe token
                     };
-
-                    console.log(bookingData);
-
                     $.ajax({
                         url: '/booking/store',
                         method: 'POST',
                         data: bookingData,
                         success: function (response) {
                             console.log('Booking successful:', response);
-                            window.location.href = response.url;
+                            // $('#payment-form')[0].reset();
+                            // card.clear();
+                            setTimeout(() => {
+                                $('.loader').hide();
+                                alert('booking Success');
+                                // window.location.href = '/';
+
+                            }, 500);
                         },
                         error: function (xhr) {
                             console.error('Booking failed:', xhr.responseText);
@@ -420,30 +457,5 @@ $(document).ready(function () {
             $('.card-error-new').hide();
         })
     });
-    // Initialize Stripe
-    var stripe = Stripe('pk_test_51Pg0xxIpCrzhTk3noCRQZEZezn6SM20Ihj5XxT9edh6t13AdAdc8R2DYGnVm2eq9CBW8q5831OefWCwQsO97XLzs00cjIlsJPV'); // Replace with your Stripe public key
-    var elements = stripe.elements();
-    var style = {
-        base: {
-            color: '#32325d',
-            fontFamily: '"Helvetica Neue", Helvetica, sans-serif',
-            fontSmoothing: 'antialiased',
-            fontSize: '16px',
-            '::placeholder': {
-                color: '#aab7c4'
-            }
-        },
-        invalid: {
-            color: '#fa755a',
-            iconColor: '#fa755a'
-        }
-    };
-
-    // Create a card element without the ZIP/postal code field
-    var card = elements.create('card', {
-        style: style,
-        hidePostalCode: true
-    });
-    card.mount('#card-element');
 
 });

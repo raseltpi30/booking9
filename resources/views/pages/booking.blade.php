@@ -14,29 +14,29 @@
                         <div class="booking-page form-group">
                             <div class="booking-page grid-item">
                                 <label for="first-name">First Name *</label>
-                                <input type="text" id="first-name" name="first-name" >
+                                <input type="text" id="first-name" name="first-name">
                                 <div id="first-name-error" class="error-message"></div>
                             </div>
                             <div class="booking-page grid-item">
                                 <label for="last-name">Last Name *</label>
-                                <input type="text" id="last-name" name="last-name" >
+                                <input type="text" id="last-name" name="last-name">
                                 <div id="last-name-error" class="error-message"></div>
                             </div>
                         </div>
                         <div class="booking-page form-group">
                             <div class="booking-page grid-item">
                                 <label for="email">Email Address *</label>
-                                <input type="email" id="email" name="email" >
+                                <input type="email" id="email" name="email">
                                 <div id="email-error" class="error-message"></div>
                             </div>
                             <div class="booking-page grid-item">
                                 <label for="phone">Phone Number *</label>
-                                <input type="tel" id="phone" name="phone" >
+                                <input type="tel" id="phone" name="phone">
                                 <div id="phone-error" class="error-message"></div>
                             </div>
                         </div>
                         <div class="booking-page checkbox-group">
-                            <input type="checkbox" id="consent" name="consent" >
+                            <input type="checkbox" id="consent" name="consent">
                             <label for="consent">I'm giving my consent to receive SMS and email notifications</label>
                         </div>
 
@@ -45,7 +45,7 @@
                         <div class="booking-page form-group">
                             <div class="booking-page grid-item">
                                 <label for="street">Street *</label>
-                                <input type="text" id="street" name="street" >
+                                <input type="text" id="street" name="street">
                                 <div id="street-error" class="error-message"></div>
                             </div>
                             <div class="booking-page grid-item">
@@ -56,12 +56,12 @@
                         <div class="booking-page form-group">
                             <div class="booking-page grid-item">
                                 <label for="city">City *</label>
-                                <input type="text" id="city" name="city" >
+                                <input type="text" id="city" name="city">
                                 <div id="city-error" class="error-message"></div>
                             </div>
                             <div class="booking-page grid-item">
                                 <label for="postal-code">Postcode *</label>
-                                <input type="text" id="postal-code" name="postal-code" >
+                                <input type="text" id="postal-code" name="postal-code">
                                 <div id="postal-code-error" class="error-message"></div>
                             </div>
                         </div>
@@ -363,7 +363,8 @@
                                 <!-- A Stripe Element will be inserted here. -->
                             </div>
                             <div id="card-errors" role="alert"></div> <!-- Display card errors -->
-                            <button type="submit" id="complete-booking-button">Complete Booking</button>
+                            <button type="submit" id="complete-booking-button" style="position: relative">Complete
+                                Booking <div id="loader" class="loader" style="position: absolute"></div></button>
                         </div>
                     </form>
                 </div>
@@ -462,5 +463,51 @@
         z-index: 100;
         cursor: pointer;
         right: 2%;
+    }
+
+    #complete-booking-button {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+
+    .loader {
+        border: 3px solid #f3f3f3;
+        /* Light grey */
+        border-top: 3px solid #3498db;
+        /* Blue */
+        border-radius: 50%;
+        width: 40px;
+        height: 40px;
+        -webkit-animation: spin 1s linear infinite;
+        /* Safari */
+        animation: spin 1s linear infinite;
+        position: absolute;
+        top: 0;
+        right: 0;
+        left: 0;
+        bottom: 0;
+        margin: auto;
+        display: none;
+    }
+
+    @-webkit-keyframes spin {
+        0% {
+            -webkit-transform: rotate(0deg);
+        }
+
+        100% {
+            -webkit-transform: rotate(360deg);
+        }
+    }
+
+    @keyframes spin {
+        0% {
+            transform: rotate(0deg);
+        }
+
+        100% {
+            transform: rotate(360deg);
+        }
     }
 </style>

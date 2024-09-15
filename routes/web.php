@@ -22,5 +22,7 @@ Route::group(['namespace' => 'App\Http\Controllers\frontend'], function () {
     Route::get('/quotes', 'PagesController@quotes')->name('quotes');
     Route::post('/booking/store', 'BookingController@store')->name('booking.store');
     Route::get('/success', 'BookingController@success')->name('payment.success');
-    Route::get('/cancel', 'BookingController@success')->name('payment.cancel');
+    Route::get('/cancel', 'BookingController@cancel')->name('payment.cancel');
+    Route::get('/payment-canceled', 'BookingController@paymentCanceled')->name('payment.canceled');
+    // Route::get('/cancel', 'BookingController@cancel')->name('payment.succe');
 });
