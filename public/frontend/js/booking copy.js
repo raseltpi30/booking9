@@ -356,6 +356,7 @@ $(document).ready(function () {
             // Recalculate the total to ensure it's up to date
             calculateTotal();
             // Calculate the total extras amount
+            $('.loader').show();
 
             $('.card-error-new').hide();
             let extrasTotal = 0;
@@ -390,9 +391,10 @@ $(document).ready(function () {
             stripe.createToken(card).then(result => {
                 if (result.error) {
                     // Display error.message in your UI
-                    alert(result.error.message);
+                    alert('not right');
                 } else {
-                    $('.loader').show();
+                    $('#complete-booking-button').css('background','red');
+                    // $('.loader').show();
 
                     // Send the token and booking data to the server
                     const bookingData = {

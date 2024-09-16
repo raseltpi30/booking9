@@ -85,6 +85,8 @@ body.booking-page {
     margin-top: 10px;
     font-size: 1em;
     color: black !important;
+    position: sticky;
+    top: 0;
 }
 
 .booking-page .pricing-summary h3 {
