@@ -1,9 +1,9 @@
 @extends('layouts.app')
 @section('title')
-Faq
+    Faq
 @endsection
 @section('main_content')
-    <div class="faq-container">
+    <section class="faq-container">
         <h2 id="yui_3_17_2_1_1721049301493_435">Frequently Asked Questions</h2>
         <p>Answers to common questions about our cleaning services, security measures, and more.</p>
         <div class="faq-row">
@@ -60,9 +60,9 @@ Faq
                         </ul>
                     </div>
                 </div>
-                <div class="faq-item active">
+                <div class="faq-item">
                     <div class="question">Commercial Cleaning</div>
-                    <div class="answer active">
+                    <div class="answer">
                         <p>Commercial cleaning involves maintaining cleanliness and hygiene in office spaces and other
                             commercial properties. This service is perfect for a comprehensive clean that makes your
                             workspace feel renewed.</p>
@@ -91,7 +91,7 @@ Faq
                 </div>
             </div>
             <div class="faq-category">
-                <h4>Trust &amp; Security</h4>
+                <h4>Trust & Security</h4>
                 <div class="faq-item">
                     <div class="question">Are the cleaning professionals trustworthy?</div>
                     <div class="answer">
@@ -120,7 +120,7 @@ Faq
         </div>
         <div class="faq-row">
             <div class="faq-category">
-                <h4>Policies &amp; Procedures</h4>
+                <h4>Policies & Procedures</h4>
                 <div class="faq-item">
                     <div class="question">What cleaning services do you not provide?</div>
                     <div class="answer">
@@ -213,5 +213,30 @@ Faq
                 </div>
             </div>
         </div>
-    </div>
+    </section>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script>
+        $(document).ready(function() {
+            $('.question').on('click', function(event) {
+                event.preventDefault();
+
+                $(this).css('font-weight', '700');
+
+                var $parent = $(this).parent();
+                var $answer = $parent.find('.answer');
+
+                // Check if the answer is currently visible
+                if ($answer.is(':visible')) {
+                    // Animate the hiding of the answer
+                    $answer.slideUp(300); // 1000ms = 1 second
+                    $(this).css('font-weight', '400');
+                } else {
+                    // Animate the showing of the answer
+                    $answer.slideDown(300); // 1000ms = 1 second
+                }
+
+                $parent.toggleClass('active');
+            });
+        });
+    </script>
 @endsection

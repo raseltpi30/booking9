@@ -73,10 +73,12 @@ class BookingController extends Controller
                     'time' => $validatedData['time'],
                     'discountPercentage' => $validatedData['discountPercentage'] ?? null,
                     'discountAmount' => $validatedData['discountAmount'] ?? null,
-                    'couponDiscountAmount' => $validatedData['couponDiscountAmount'] ?? null,
+                    'couponDiscountAmount' => isset($validatedData['couponDiscountAmount']) && $validatedData['couponDiscountAmount'] !== null
+                        ? '$' . number_format($validatedData['couponDiscountAmount'], 2)
+                        : null,
                     'extras' => json_encode($validatedData['extras'] ?? null),
                     'totalExtras' => $validatedData['totalExtras'] ?? null,
-                    'finalTotal' => $validatedData['finalTotal']
+                    'finalTotal' => '$' . $validatedData['finalTotal']
                 ]
             ]);
 

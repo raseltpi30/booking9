@@ -1,10 +1,9 @@
 /* Ensure the container is properly positioned relative */
 .booking-page.booking-section {
-	margin-top: 70px;
+    margin: 70px 0;
 }
-.booking-page.questions-content {
-    position: relative;
-}
+
+booking-page booking-form-container
 
 /* Target the credit card details section and make it moderately wider */
 .booking-page.questions-content .container:last-of-type {
@@ -57,18 +56,20 @@ body.booking-page {
     border-radius: 15px;
     box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
     margin: 0 auto;
+    position: relative;
 }
 
 .booking-page .form-content {
     flex: 1.85;
     margin-right: 20px;
+    padding-bottom: 180px;
+    /* Add this line to increase the bottom padding */
 }
 
 
 
 .booking-page .image-content {
     margin-top: 20px;
-    text-align: center;
 }
 
 .booking-page .booking-image {
@@ -91,16 +92,29 @@ body.booking-page {
 
 .booking-page .pricing-summary h3 {
     margin: 0;
-    font-size: 1.3em;
-    color: black !important;
+    font-size: 14px;
+    color: #545c69 !important;
     font-weight: bold !important;
     /* This will make the text bold */
-    font-weight: 500 !important;
+    font-weight: 400 !important;
     /* This will make the text semi-bold */
+}
+
+
+.booking-page .pricing-summary h3.first {
+    margin-top: 1rem;
 }
 
 .booking-page .pricing-summary p {
     margin: 5px 0;
+}
+
+.book-total {
+    float: right;
+    padding-right: 20px;
+    font-size: 1.2em;
+    font-size: 14px !important;
+    color: #000 !important;
 }
 
 .booking-page .booking-container {
@@ -176,19 +190,28 @@ body.booking-page {
 .booking-page .radio-item {
     display: flex;
     align-items: center;
-    padding: 8px;
     border: 1px solid #ccc;
     border-radius: 4px;
     justify-content: flex-start;
     text-align: left;
     font-size: 0.73em;
+    cursor: pointer;
 }
-
+.booking-page .radio-item input {
+	cursor: pointer;
+	margin: 0 !important;
+	padding-left: 8px !important;
+	width: 15%;
+}
 .booking-page .radio-item label {
-    margin-bottom: 0;
-    color: black;
-    text-align: left;
-    font-weight: normal;
+	margin-bottom: 0;
+	color: black;
+	text-align: left;
+	font-weight: normal;
+	padding: 8px;
+	padding-left: 0;
+	width: 100%;
+	cursor: pointer;
 }
 
 .booking-page .grid-item-full {
@@ -200,16 +223,18 @@ body.booking-page {
     height: 100px;
 }
 
-.booking-page button {
-    padding: 10px;
+.booking-page button,
+#discount-code {
+    padding: 11px;
     background-color: rgb(201, 199, 192);
     color: #fff;
     border: none;
     border-radius: 4px;
-    cursor: pointer;
     margin-top: 10px;
     text-align: center;
     font-size: 0.9em;
+    border: 1 px solid rgb(201, 199, 192);
+    cursor: pointer;
 }
 
 .booking-page button:hover {
@@ -272,12 +297,13 @@ body.booking-page {
     text-align: left;
 }
 
+
 .booking-page .question-item .toggle-icon {
     margin-right: 5px;
 }
 
 .booking-page .question-item p {
-    font-size: 0.8em;
+    font-size: 0.9em;
     color: #555;
     display: none;
     margin-top: 3px !important;
@@ -413,166 +439,142 @@ body.booking-page {
     color: black !important;
 }
 
-@media (max-width: 600px) {
 
-    /* Ensure the main container is centered */
-    .booking-page .booking-form-container {
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        width: 100%;
-        padding: 20px;
-        box-sizing: border-box;
+
+.card-error-new {
+    display: none;
+}
+
+.error-alert {
+    display: flex;
+    align-items: center;
+    background-color: #ffeeee;
+    color: #d9534f;
+    padding: 5px 20px;
+    border-radius: 5px;
+    font-family: Arial, sans-serif;
+    width: 100%;
+    position: relative;
+    margin-bottom: 20px;
+}
+
+.error-alert .error-icon {
+    background: #f56c6c;
+    color: #fff;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 100%;
+    height: 10;
+    width: 10px;
+    height: 10px;
+    padding: 12px;
+    margin-right: 15px;
+}
+
+.card-close {
+    position: absolute;
+    top: 10%;
+    z-index: 100;
+    cursor: pointer;
+    right: 2%;
+}
+
+#complete-booking-button {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.loader {
+    border: 3px solid #f3f3f3;
+    /* Light grey */
+    border-top: 3px solid #3498db;
+    /* Blue */
+    border-radius: 50%;
+    width: 40px;
+    height: 40px;
+    -webkit-animation: spin 1s linear infinite;
+    /* Safari */
+    animation: spin 1s linear infinite;
+    position: absolute;
+    top: 0;
+    right: 0;
+    left: 0;
+    bottom: 0;
+    margin: auto;
+    display: none;
+}
+
+@-webkit-keyframes spin {
+    0% {
+        -webkit-transform: rotate(0deg);
     }
 
-    /* Center the form content and questions content */
-    .booking-page .form-content,
-    .booking-page .questions-content {
-        width: 100%;
-        max-width: 100%;
-        margin: 0 auto;
-        text-align: center;
-        box-sizing: border-box;
-        border-left: none;
-        /* Remove the vertical line */
+    100% {
+        -webkit-transform: rotate(360deg);
+    }
+}
+
+@keyframes spin {
+    0% {
+        transform: rotate(0deg);
     }
 
-    /* Adjust the grid structure to avoid overlapping */
-    .booking-page .extras-group {
-        display: grid !important;
-        grid-template-columns: repeat(3, 1fr) !important;
-        gap: 20px 10px !important;
-        /* Adjust the gaps for even spacing */
-        width: 100% !important;
-        box-sizing: border-box !important;
-        padding-bottom: 20px;
-        /* Ensure there's padding at the bottom */
+    100% {
+        transform: rotate(360deg);
     }
+}
 
-    /* Adjust the height and spacing of each add-on box */
-    .booking-page .extras-group .extra-item {
-        height: auto !important;
-        /* Let the height adjust automatically */
-        padding: 20px 10px !important;
-        /* Add padding inside each item */
-        box-sizing: border-box !important;
-        /* Ensure padding is included in the calculation */
-        overflow: hidden !important;
-        /* Prevent content from overflowing */
-        margin: 0;
-        /* Remove auto margin */
-    }
+.card-container {
+    text-align: center;
+    max-width: none;
+    position: absolute;
+    /* bottom: 20px; */
+    left: -100%;
+    width: 60%;
+    left: 0;
+    margin: 0 20px;
+    bottom: 20px;
+}
 
-    /* Move the + button 10% to the left */
-    .booking-page .extras-group .extra-item .counter-container .increase {
-        left: 75% !important;
-        position: relative;
-        top: -90px;
-        /* Moves the button 20px higher */
-    }
+#discount-code {
+    background: #fff !important;
+    border: 1px solid #DCDFE6;
+    color: #606266;
+    padding: 10px;
+    cursor: unset;
+}
 
-    /* Move the - button 15% to the left */
-    .booking-page .extras-group .extra-item .counter-container .decrease {
-        left: 5% !important;
-        position: relative;
-        top: -90px;
-        /* Moves the button 20px higher */
-    }
+#discount-code:focus {
+    border: 1px solid #1b040471;
+    outline: none;
+}
 
-    /* Move the counter up slightly */
-    .booking-page .extras-group .extra-item .counter {
-        top: -22px;
-        /* Move the counter up */
-    }
+#cleaning-plan-details {
+    border-bottom: 1px solid #E5E9EF;
+    padding-bottom: 1rem;
+}
 
-    /* Hide questions in mobile view */
-    .booking-page .questions-content h2,
-    .booking-page .question-item {
-        display: none;
-    }
+#total-price-container {
+    border-top: 1px solid #E5E9EF;
+    margin-top: 1rem;
+    padding-top: 1rem;
+}
 
-    /* Move the image and related content up */
-    .booking-page .image-content {
-        margin-top: -170px;
-        width: 110%;
-        /* Set the width to make the image wider */
-        transform: translateX(-25px);
-        /* Move the image slightly to the left */
-    }
+ul#selected-extras {
+    list-style: none;
+}
 
-    /* Move the entire pricing section down to make the "Cleaning Plan" visible */
-    .booking-page .pricing-summary {
-        margin-top: 10px;
-        /* Adjust this value to move the section down */
-        transform: translateX(-10px);
-        /* Move the section slightly to the left */
-    }
-
-    /* Target the credit card details section and make it wider */
-    .booking-page.questions-content .container:last-of-type {
-        margin-top: 20px;
-        position: relative;
-        /* Make sure it's placed in the natural flow */
-        bottom: 0px;
-        /* Keep it positioned at the bottom */
-        left: 0;
-        /* Align it with the left edge */
-        width: 100% !important;
-        /* Ensure it takes up the full width of the screen */
-        max-width: 100% !important;
-        /* Ensure it doesn't exceed the screen width */
-        text-align: center;
-        /* Center the text */
-        transform: translateX(-10px);
-        /* Move the section slightly to the left */
-    }
-
-    /* Ensure the Credit Card Details title is visible and aligned */
-    .booking-page .container:last-of-type h3 {
-        display: block;
-        /* Make sure the title is visible */
-        margin-bottom: 15px;
-        /* Add some space below the title */
-        text-align: center;
-        /* Center the title */
-        font-size: 1.2em;
-        /* Adjust the font size if needed */
-    }
-
-    .booking-page .container:last-of-type h2 {
-        display: block;
-        /* Ensure the header is displayed */
-        text-align: center;
-        /* Center the header */
-        margin-bottom: 15px;
-        /* Add space below the header */
-        color: black;
-        /* Set the color to black */
-        font-size: 1.2em;
-        /* Adjust the font size */
-    }
-
-    /* Ensure the Credit Card Details section is centered and visible */
-    .booking-page .container:last-of-type {
-        margin: 20px auto;
-        width: 100%;
-        text-align: center;
-        /* Center align */
-        position: static !important;
-        transform: translateX(-10px);
-        /* Move the section slightly to the left */
-    }
-
-    /* Manually move the Complete Booking button to the right and make it full width */
-    #complete-booking-button {
-        width: 100%;
-        /* Make the button full width */
-        max-width: none;
-        /* Remove any max-width constraints */
-        padding: 15px 0;
-        /* Adjust the padding */
-        margin: 20px 0;
-        display: block;
-        text-align: center;
-    }
+ul#selected-extras li {
+    font-size: 11px;
+    margin-bottom: 5px;
+    font-weight: 500;
+    color: #6e918c;
+}
+.cleaning-plan {
+    font-size: 18px !important;
+    font-weight: 600 !important;
+    margin-bottom: 8px;
+    color: #000 !important;
 }

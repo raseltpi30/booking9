@@ -394,10 +394,11 @@
 
 /* Increase font size for the heading */
 #custom-section h2 {
-	font-size: 44px;
-	margin: 20px 0 40px 0;
-	font-weight: 400;
+    font-size: 44px;
+    margin: 20px 0 40px 0;
+    font-weight: 400;
 }
+
 /* Centered content with max width */
 #custom-section p {
     max-width: 800px;
@@ -726,49 +727,20 @@
     }
 }
 
-/* faq css  */
-:root {
-    --main-bg-color: #f9f9f9;
-    --card-bg-color: #fff;
-    --border-color: #ccc;
-    --text-color: #555;
-    --heading-color: #333;
-    --button-hover-bg-color: #91b9a3;
-}
-
-#yui_3_17_2_1_1721038524522_420 {
-    color: black !important;
-    font-size: 36px;
-}
-
-body {
-    font-family: Arial, sans-serif;
-    font-weight: 400;
-}
-
-
+/* Faq css  */
 .faq-container {
     max-width: 1200px;
-    margin: 70px auto;
     padding: 20px;
-    background-color: white;
     border-radius: 15px;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    margin: 70px auto;
 }
 
 h2,
 h4,
 .question,
 .answer,
-p,
-.faq-category h4,
-.faq-item,
-.question,
-.answer {
-    color: black !important;
-    /* Ensures all text is black */
-    font-family: inherit;
-    text-align: left;
+p {
+    color: black;
 }
 
 .faq-row {
@@ -796,39 +768,32 @@ p,
     cursor: pointer;
     position: relative;
     padding-left: 20px;
-    text-align: left;
-    color: black !important;
-    /* Ensures question text is black */
 }
 
 .question:before {
     content: "+";
-    color: rgb(201, 199, 192);
+    color: #795548;
+    /* Dark brown color */
     position: absolute;
     left: 0;
 }
 
 .answer {
     display: none;
-    text-align: left;
+    text-align: left !important;
     width: 100%;
     margin-left: 0;
-    color: black !important;
-    /* Ensures answer text is black */
+    /* Remove the left margin */
+    padding-left: 20px;
+    /* Optional: Add padding for better alignment */
 }
 
 .answer p,
 .answer ul,
 .answer li {
-    text-align: left;
+    text-align: left !important;
     margin-left: 0;
-    width: 100%;
-    color: black !important;
-    /* Ensures list items and paragraphs are black */
-}
-
-.answer ul {
-    padding-left: 20px;
+    /* Ensure no margin is pushing the text to the right */
 }
 
 .faq-category:nth-child(1),
@@ -848,6 +813,7 @@ p,
 .faq-container p {
     color: #666;
     text-align: center;
+    margin-bottom: 50px;
 }
 
 .faq-container ul {
@@ -865,14 +831,16 @@ p,
     border: 1px solid #ccc;
     padding: 20px;
     border-radius: 10px;
-    color: black;
 }
 
 .faq-title h2,
 .faq-title p {
     margin: 0;
+}
+
+#yui_3_17_2_1_1721049301493_435 {
     color: black !important;
-    font-family: inherit;
+    font-size: 36px !important;
 }
 
 @media (max-width: 768px) {
@@ -1352,35 +1320,28 @@ footer,
     justify-content: space-between;
     align-items: flex-start;
     flex-wrap: nowrap;
-    /* Prevent wrapping */
 }
 
 .footer-column {
     margin-right: 10px;
-    /* Reduce spacing between columns */
 }
 
 .footer-column.menu {
     width: 20%;
-    /* Adjust width as needed */
 }
 
 .footer-column.sydney-service-areas {
     width: 40%;
-    /* Increase width to ensure it stays on one line */
 }
 
 .footer-column.footer-contact {
     margin-left: auto;
-    /* Move Stay Connected to the far right */
 }
 
 .footer h3 {
     color: var(--footer-text-color) !important;
     font-weight: 600;
-    /* Slightly less bold */
     font-size: 1.1rem;
-    /* Slightly smaller font size */
 }
 
 .footer ul {
@@ -1415,50 +1376,35 @@ footer,
 
 .footer button {
     background-color: var(--footer-text-color) !important;
-    /* Black color for button */
     color: var(--footer-bg-color) !important;
-    /* Text color matching background */
     border: none;
     padding: 5px 10px;
     border-radius: 5px;
     cursor: pointer;
 }
-
 .footer button:hover {
     background-color: var(--footer-text-color) !important;
     /* Black color on hover */
     color: var(--footer-bg-color) !important;
-    /* Text color matching background */
 }
-
-/* Removing turquoise color on hover for links */
 a:hover {
     color: inherit !important;
-    /* Maintain the text color on hover */
 }
-
 .footer-column.footer-contact h3 {
     margin-bottom: 5px;
-    /* Reduce the bottom margin */
 }
-
 .footer-column.footer-contact form {
     margin-bottom: 10px;
-    /* Adjust the bottom margin if needed */
 }
 
 .footer-column.footer-contact form input[type="email"] {
     margin-top: 0;
-    /* Remove any top margin */
     padding: 5px;
-    /* Adjust padding for better spacing */
 }
 
 .footer-column.footer-contact form button {
     margin-top: 5px;
-    /* Adjust top margin for better spacing */
     padding: 5px 10px;
-    /* Adjust padding for better spacing */
 }
 
 /*******************************************/
@@ -1473,17 +1419,17 @@ a:hover {
 /*****************************************/
 
 #block-yui_3_17_2_1_1720516738964_3057 {
-    position: relative;
-    background-size: cover;
-    background-position: center;
-    background-repeat: no-repeat;
-    width: 100%;
-    min-height: 100vh;
-    margin: 0;
-    padding: 0;
-    overflow: hidden;
-    background-image: url("https://static1.squarespace.com/static/6682192d1022a0098a1c29d9/t/66ba17f0d38adb6346a8afc3/1723471857359/First+Class+Cleaning+Home.jpg");
-
+	background-size: cover;
+	background-position: center;
+	width: 100%;
+	min-height: 100vh;
+	margin: 0;
+	padding: 0;
+	overflow: hidden;
+	background-image: url("https://static1.squarespace.com/static/6682192d1022a0098a1c29d9/t/66ba17f0d38adb6346a8afc3/1723471857359/First+Class+Cleaning+Home.jpg");
+	background-position: center center !important;
+	background-size: cover !important;
+	min-height: 700px;
 }
 
 /* Add a dark overlay */
@@ -1787,19 +1733,23 @@ body {
 #yui_3_17_2_1_1721029560499_470 {
     color: black !important;
 }
+
 .custom-content p.last {
-	margin: 40px 0;
-	font-size: 19px;
+    margin: 40px 0;
+    font-size: 19px;
 }
+
 .custom-content h3 {
-	margin-bottom: 40px;
+    margin-bottom: 40px;
     font-size: 32px;
     font-weight: 400;
 }
+
 #yui_3_17_2_1_1721029560499_470 {
-	font-weight: 400;
-	font-size: 36px;
+    font-weight: 400;
+    font-size: 36px;
 }
+
 .error-message {
     color: red;
     font-size: 0.875em;

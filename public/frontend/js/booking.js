@@ -102,7 +102,8 @@ $(document).ready(function () {
         $('#cleaning-plan-details').text(`${service}, ${bathroom}, ${storey}`);
         $('#service-cost').text(`${typeOfService}: $${typeOfServicePrices[typeOfService]}`);
 
-        // console.log('Base total:', total);
+        console.log('Base total:', total);
+        $('#service-cost').text(`$${total.toFixed(2)}`);
 
         const selectedExtras = $('.extra-item.highlighted');
         const extrasList = $('#selected-extras').empty();
@@ -134,6 +135,8 @@ $(document).ready(function () {
             total += itemTotal;
             extrasTotal += itemTotal;
 
+
+
             extrasObject[label] = {
                 price: item.price,
             };
@@ -150,7 +153,7 @@ $(document).ready(function () {
             const discount = frequencyDiscounts[frequencyDiscount];
             const frequencyDiscountAmount = total * discount;
             total -= frequencyDiscountAmount;
-            $('#frequency-discount').text(`Frequency Discount: -$${frequencyDiscountAmount.toFixed(2)}`);
+            $('#frequency-discount').text(`-$${frequencyDiscountAmount.toFixed(2)}`);
             $('#total-price-2').val(frequencyDiscountAmount.toFixed(2));
             // console.log('Total after frequency discount:', total);
         } else {
@@ -167,7 +170,7 @@ $(document).ready(function () {
         }
 
         total -= discountAmount;
-        $('#total').text(total.toFixed(2));
+        $('#total').text(`$${total.toFixed(2)}`);
         $('#total-price-input').val(total.toFixed(2));
         // console.log('Final total after all discounts:', total);
 
@@ -322,6 +325,129 @@ $(document).ready(function () {
     });
     card.mount('#card-element');
 
+    card.addEventListener('change', function (event) {
+        var displayError = document.getElementById('card-errors');
+        if (event.error) {
+            displayError.textContent = event.error.message;
+        } else {
+            displayError.textContent = '';
+        }
+    });
+
+    // $('#card').on('change', function(event) {
+    //     alert('cart-click');
+    //     // Select the error display element
+    //     var displayError = $('#card-errors');
+
+    //     // Check if there's an error in the event object
+    //     if (event.originalEvent && event.originalEvent.error) {
+    //         // Set the text of the error element to the error message
+    //         displayError.text(event.originalEvent.error.message);
+    //     } else {
+    //         // Clear the error message if there's no error
+    //         displayError.text('');
+    //     }
+    // });
+
+
+    // for blur validate
+    let allFieldsValid = true;
+    // Define the validation functions
+    function validatePhoneNumber(phoneNumber) {
+        const phoneRegex = /^(\+8801|01)[3-9]\d{8}$/;
+        return phoneRegex.test(phoneNumber);
+    }
+
+    function validateEmail(email) {
+        const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+        return emailRegex.test(email);
+    }
+    function validateFutureDate(dateString) {
+        // Assuming dateString is in YYYY-MM-DD format
+        const inputDate = new Date(dateString);
+        const today = new Date();
+        today.setHours(0, 0, 0, 0); // Set hours to 00:00:00 to compare dates without time
+
+        return inputDate >= today;
+    }
+
+    // Define fields and their validations
+    const fields = [
+        { id: '#first-name', name: 'firstName' },
+        { id: '#last-name', name: 'lastName' },
+        { id: '#email', name: 'email', validate: validateEmail },
+        { id: '#phone', name: 'phone', validate: validatePhoneNumber },
+        { id: '#street', name: 'street' },
+        { id: '#city', name: 'city' },
+        { id: '#postal-code', name: 'postal-code' },
+        { id: '#day', name: 'day', validate: validateFutureDate },
+        { id: '#time', name: 'time' },
+    ];
+    function validateField(field) {
+        const value = $(field.id).val().trim();
+        const errorElement = $(`${field.id}-error`);
+
+        if (!value) {
+            allFieldsValid = false;
+            errorElement.text(`The ${field.name} field is required.`);
+            errorElement.stop(true, true).slideDown(); // Show the error message with sliding effect
+        } else if (field.validate) {
+            // Perform specific validation if provided
+            const isValid = field.validate(value);
+            if (!isValid) {
+                allFieldsValid = false;
+                errorElement.text(`The ${field.name} is not valid.`);
+                errorElement.stop(true, true).slideDown(); // Show the error message with sliding effect
+            } else {
+                errorElement.stop(true, true).slideUp(); // Hide the error message with sliding effect
+            }
+        } else {
+            errorElement.stop(true, true).slideUp(); // Hide the error message with sliding effect
+        }
+    }
+
+    // Add event listeners for each field
+    fields.forEach(field => {
+        $(field.id).on('input blur change', function () {
+            validateField(field);
+        });
+    });
+    $('input[name="frequency"]').on('change', function() {
+        // Hide the error message when an option is selected
+        $('#error-message').hide();
+    });
+
+    // Function to validate a single field
+    // function validateField(field) {
+    //     const value = $(field.id).val().trim();
+    //     const errorElement = $(`${field.id}-error`);
+
+    //     if (!value) {
+    //         allFieldsValid = false;
+    //         errorElement.text(`The ${field.name} field is required.`);
+    //     } else if (field.validate) {
+    //         // Perform specific validation if provided
+    //         const isValid = field.validate(value);
+    //         if (!isValid) {
+    //             allFieldsValid = false;
+    //             errorElement.text(`The ${field.name} is not valid.`);
+    //         } else {
+    //             errorElement.text(''); // Clear error message if valid
+    //         }
+    //     } else {
+    //         errorElement.text(''); // Clear error message if valid
+    //     }
+
+    //     errorElement.toggle(!!errorElement.text()); // Show or hide the error message
+    // }
+
+    // // Add event listeners for each field
+    // fields.forEach(field => {
+    //     $(field.id).on('input blur change', function () {
+    //         validateField(field);
+    //     });
+    // });
+
     $('#complete-booking-button').click(function (event) {
         event.preventDefault(); // Prevent the default form submission
 
@@ -329,30 +455,86 @@ $(document).ready(function () {
         $('.error-message').text('');
 
         // Initialize a flag to check if all fields are valid
-        let allFieldsValid = true;
+        allFieldsValid = true; // Reset validation status
+        fields.forEach(field => {
+            validateField(field);
+        });
+        if ($('input[name="frequency"]:checked').length === 0) {
+            // Show error message if none is selected
+            $('#error-message').show();
+        };
 
         // Validate each field
-        const fields = [
-            { id: '#first-name', name: 'firstName' },
-            { id: '#last-name', name: 'lastName' },
-            { id: '#email', name: 'email' },
-            { id: '#phone', name: 'phone' },
-            { id: '#street', name: 'street' },
-            { id: '#city', name: 'city' },
-            { id: '#postal-code', name: 'postal-code' },
-            { id: '#day', name: 'day' },
-            { id: '#time', name: 'time' },
-        ];
+        // const fields = [
+        //     { id: '#first-name', name: 'firstName' },
+        //     { id: '#last-name', name: 'lastName' },
+        //     { id: '#email', name: 'email' },
+        //     { id: '#phone', name: 'phone' },
+        //     { id: '#street', name: 'street' },
+        //     { id: '#city', name: 'city' },
+        //     { id: '#postal-code', name: 'postal-code' },
+        //     { id: '#day', name: 'day' },
+        //     { id: '#time', name: 'time' },
+        // ];
 
-        fields.forEach(field => {
-            const value = $(field.id).val().trim();
-            if (!value) {
-                allFieldsValid = false;
-                $(`${field.id}-error`).text(`The ${field.name} field is required.`);
-            }
-        });
+        // fields.forEach(field => {
+        //     const value = $(field.id).val().trim();
+        //     if (!value) {
+        //         allFieldsValid = false;
+        //         $(`${field.id}-error`).text(`The ${field.name} field is required.`);
+        //     }
+        // })
+
+        // function validatePhoneNumber(phoneNumber) {
+        //     const phoneRegex = /^(\+8801|01)[3-9]\d{8}$/;
+        //     return phoneRegex.test(phoneNumber);
+        // }
+
+        // // Email validation
+        // function validateEmail(email) {
+        //     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+        //     return emailRegex.test(email);
+        // }
+
+        // // Define fields and their validations
+        // const fields = [
+        //     { id: '#first-name', name: 'firstName' },
+        //     { id: '#last-name', name: 'lastName' },
+        //     { id: '#email', name: 'email', validate: validateEmail }, // Add email validation
+        //     { id: '#phone', name: 'phone', validate: validatePhoneNumber }, // Add phone number validation
+        //     { id: '#street', name: 'street' },
+        //     { id: '#city', name: 'city' },
+        //     { id: '#postal-code', name: 'postal-code' },
+        //     { id: '#day', name: 'day' },
+        //     { id: '#time', name: 'time' },
+        // ];
+
+        // // Validate each field
+        // fields.forEach(field => {
+        //     const value = $(field.id).val().trim();
+        //     const errorElement = $(`${field.id}-error`);
+
+        //     if (!value) {
+        //         allFieldsValid = false;
+        //         errorElement.text(`The ${field.name} field is required.`);
+        //     } else if (field.validate) {
+        //         // Perform specific validation if provided
+        //         const isValid = field.validate(value);
+        //         if (!isValid) {
+        //             allFieldsValid = false;
+        //             errorElement.text(`The ${field.name} is not valid.`);
+        //         } else {
+        //             errorElement.text(''); // Clear error message if valid
+        //         }
+        //     } else {
+        //         errorElement.text(''); // Clear error message if valid
+        //     }
+
+        //     errorElement.toggle(!!errorElement.text()); // Show or hide the error message
+        // });
 
         if (allFieldsValid) {
+            $('.loader').show();
             // Recalculate the total to ensure it's up to date
             calculateTotal();
             // Calculate the total extras amount
@@ -389,11 +571,13 @@ $(document).ready(function () {
             }
             stripe.createToken(card).then(result => {
                 if (result.error) {
-                    // Display error.message in your UI
-                    alert(result.error.message);
+                    // ('.loader').hide();
+                    // // Display error.message in your UI
+                    // alert(result.error.message);
+                    $('.loader').hide();
                 } else {
-                    $('.loader').show();
 
+                    $('.loader').show();
                     // Send the token and booking data to the server
                     const bookingData = {
                         firstName: $('#first-name').val(),
@@ -419,6 +603,8 @@ $(document).ready(function () {
                         finalTotal: finalTotal,
                         stripeToken: result.token.id // Include the Stripe token
                     };
+
+                    console.log(bookingData);
                     $.ajax({
                         url: '/booking/store',
                         method: 'POST',
@@ -455,5 +641,20 @@ $(document).ready(function () {
             $('.card-error-new').hide();
         })
     });
+    // for question look
+    $('.question-item h3').on('click', function () {
+        var $icon = $(this).find('.toggle-icon');
+        var $content = $(this).next();
 
+        if ($content.is(':visible')) {
+            // Hide the content and change the icon to '+'
+            $content.slideUp(300); // Optional: for smooth transition
+            $icon.text('+');
+        } else {
+            // Show the content and change the icon to '-'
+            $content.slideDown(300); // Optional: for smooth transition
+            $icon.text('-');
+        }
+    });
 });
+

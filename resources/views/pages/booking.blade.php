@@ -3,14 +3,15 @@
     Booking
 @endsection
 @section('main_content')
-    <!-- main start  -->
     <section class="booking-page booking-section">
-        <div class="booking-page booking-form-container">
-            <div class="booking-page form-content">
-                <div class="booking-page booking-container">
-                    <h2 id="yui_3_17_2_1_1721228574982_440">Contact Information</h2>
-                    <p>We'll use these details to follow up with you about your quote</p>
-                    <form id="payment-form"> <!-- Updated form ID for Stripe integration -->
+        <form id="payment-form" method="POST"> <!-- Updated form ID for Stripe integration -->
+            @csrf
+            <div class="booking-page booking-form-container">
+
+                <div class="booking-page form-content">
+                    <div class="booking-page booking-container">
+                        <h2 id="yui_3_17_2_1_1721228574982_440">Contact Information</h2>
+                        <p>We'll use these details to follow up with you about your quote</p>
                         <div class="booking-page form-group">
                             <div class="booking-page grid-item">
                                 <label for="first-name">First Name *</label>
@@ -314,10 +315,11 @@
                                 <label for="weekly">Weekly (Save 15%)</label>
                             </div>
                             <div class="booking-page radio-item">
-                                <input type="radio" id="one-time" name="frequency" value="One-time">
+                                <input type="radio" id="one-time" name="frequency" value="One-time" checked>
                                 <label for="one-time">One-time service</label>
                             </div>
                         </div>
+                        <p id="error-message" style="color: red; display: none;">Please select an freequency option.</p>
 
                         <h2 id="yui_3_17_2_1_1721228574982_701">Accessibility</h2>
                         <p>How will the cleaners enter your home?</p>
@@ -346,168 +348,94 @@
                                 <textarea id="notes" name="notes" placeholder="Property access information, your dog's name, etc"></textarea>
                             </div>
                         </div>
-                        <div class="card-container">
-                            <h2 id="yui_3_17_2_1_1721228574982_747">Credit Card Details</h2>
-                            <p>Enter your card information below. You will be charged after service has been rendered.</p>
-                            <div class="card-error-new">
-                                <div class="error-alert">
-                                    <div class="error-icon">✖</div>
-                                    <div class="error-card-message">
-                                        <strong>Something went wrong</strong>
-                                        <p style="margin: 0">Please complete the form to submit.</p>
-                                    </div>
-                                    <div class="card-close">✖</div>
-                                </div>
-                            </div>
-                            <div id="card-element">
-                                <!-- A Stripe Element will be inserted here. -->
-                            </div>
-                            <div id="card-errors" role="alert"></div> <!-- Display card errors -->
-                            <button type="submit" id="complete-booking-button" style="position: relative">Complete
-                                Booking <div id="loader" class="loader" style="position: absolute"></div></button>
-                        </div>
-                    </form>
-                </div>
-            </div>
-            <div class="booking-page questions-content">
-                <h2 id="yui_3_17_2_1_1721229401406_413">Questions?</h2>
-                <div class="booking-page question-item">
-                    <h3><span class="toggle-icon">+</span> What is included in a cleaning service?</h3>
-                    <p>We offer standard cleaning, deep cleaning, move-in and move-out cleaning, and hourly organization
-                        services. For more details, see our <a href="/faq">FAQ page</a>.</p>
-                </div>
-                <div class="booking-page question-item">
-                    <h3><span class="toggle-icon">+</span> Who is cleaning my home?</h3>
-                    <p>Our team of professional cleaners is trained, vetted, and dedicated to providing the highest
-                        quality service. We ensure your home is in good hands with our trustworthy and experienced
-                        staff.</p>
-                </div>
-                <div class="booking-page question-item">
-                    <h3><span class="toggle-icon">+</span> Can I skip or reschedule bookings?</h3>
-                    <p>Any changes to your booking must be made at least 24 hours before the scheduled service. Please
-                        contact us at info.crystalcleansyd@gmail.com for any changes.</p>
-                </div>
-                <div class="booking-page question-item">
-                    <h3><span class="toggle-icon">+</span> What is your cancellation policy?</h3>
-                    <p>You may cancel your booking up to 24 hours before the scheduled service for a full refund.
-                        Cancellations made less than 24 hours in advance may incur a $50 cancellation fee.</p>
-                </div>
-                <div class="booking-page image-content">
-                    <img src="https://static1.squarespace.com/static/6682192d1022a0098a1c29d9/t/66b3461337a2ce52082ab83f/1723024918365/Book+Now+3.jpg"
-                        class="booking-image" alt="Book Now" loading="lazy">
-                </div>
-                <!-- Discount Code Input Field -->
-                <div class="discount-code-container">
-                    <input type="text" id="discount-code" class="discount-code-input" placeholder="Discount Code">
-                    <button type="button" class="apply-discount-button">Apply Code</button>
-                </div>
-                <div class="pricing-summary">
-                    <div class="pricing-summary">
-                        <h3>Cleaning Plan</h3>
-                        <p id="cleaning-plan-details">Studio or 1 bedroom, 1 bathroom, Single storey home</p>
-                        <p id="service-cost" style="font-weight: 500;">General Cleaning: $130</p>
-                        <h3>Selected Extras: <span id="extras-total" style="font-size: 0.8em;">$0.00</span></h3>
-                        <ul id="selected-extras" style="font-size: 0.8em;"></ul>
-                        <p id="frequency-discount"></p>
-                        <div id="discount-amount"></div>
-                        <h3 id="total-price-container">Total: $<span id="total">130.00</span></h3>
-                        <input type="text" id="total-price-input" readonly />
-                        <input type="text" id="total-price-2" readonly />
-                        <input type="text" id="total-price-3" readonly />
                     </div>
-
-                    <!-- Credit Card Details -->
-
                 </div>
+                <div class="booking-page questions-content">
+                    <h2 id="yui_3_17_2_1_1721229401406_413">Questions?</h2>
+                    <div class="booking-page question-item">
+                        <h3><span class="toggle-icon">+</span> What is included in a cleaning service?</h3>
+                        <p>We offer standard cleaning, deep cleaning, move-in and move-out cleaning, and hourly
+                            organization
+                            services. For more details, see our <a href="{{route('faq')}}">FAQ page</a>.</p>
+                    </div>
+                    <div class="booking-page question-item">
+                        <h3><span class="toggle-icon">+</span> Who is cleaning my home?</h3>
+                        <p>Our team of professional cleaners is trained, vetted, and dedicated to providing the highest
+                            quality service. We ensure your home is in good hands with our trustworthy and experienced
+                            staff.</p>
+                    </div>
+                    <div class="booking-page question-item">
+                        <h3><span class="toggle-icon">+</span> Can I skip or reschedule bookings?</h3>
+                        <p>Any changes to your booking must be made at least 24 hours before the scheduled service.
+                            Please
+                            contact us at info.crystalcleansyd@gmail.com for any changes.</p>
+                    </div>
+                    <div class="booking-page question-item">
+                        <h3><span class="toggle-icon">+</span> What is your cancellation policy?</h3>
+                        <p>You may cancel your booking up to 24 hours before the scheduled service for a full refund.
+                            Cancellations made less than 24 hours in advance may incur a $50 cancellation fee.</p>
+                    </div>
+                    <div class="booking-page image-content">
+                        <img src="https://static1.squarespace.com/static/6682192d1022a0098a1c29d9/t/66b3461337a2ce52082ab83f/1723024918365/Book+Now+3.jpg"
+                            class="booking-image" alt="Book Now" loading="lazy">
+                    </div>
+                    <!-- Discount Code Input Field -->
+                    <div class="discount-code-container">
+                        <input type="text" id="discount-code" class="discount-code-input"
+                            placeholder="Discount Code">
+                        <button type="button" class="apply-discount-button">Apply Code</button>
+                    </div>
+                    <div class="pricing-summary">
+                        <div class="pricing-summary">
+                            <h3 class="cleaning-plan">Cleaning Plan</h3>
+                            <p id="cleaning-plan-details">Studio or 1 bedroom, 1 bathroom, Single storey home</p>
+                            {{-- <p id="service-cost" style="font-weight: 500;">General Cleaning: $130.00</p> --}}
+                            <h3 class="first">General Cleaning Total: <span id="service-cost" class="book-total"
+                                    style="font-size: 0.8em;">$0.00</span></h3>
+                            <h3>Selected Extras: <span id="extras-total" class="book-total"
+                                    style="font-size: 0.8em;">$0.00</span></h3>
+
+                            <ul id="selected-extras" style="font-size: 0.8em;"></ul>
+                            <h3>Frequency Discount: <span id="frequency-discount"
+                                    class="book-total" style="font-size: 0.8em;">-$0.00</span></h3>
+                            <h3>&nbsp; <span id="discount-amount"
+                                    class="book-total" style="font-size: 0.8em;">$0.00</span></h3>
+                            {{-- <p id="frequency-discount"></p> --}}
+                            <div id="discount-amount" style="float: right;"></div>
+                            <h3 id="total-price-container" style="font-size: 1.3em">Total: <span id="total" class="book-total">130.00</span>
+                            </h3>
+                            <input type="hidden" id="total-price-input" readonly />
+                            <input type="hidden" id="total-price-2" readonly />
+                            <input type="hidden" id="total-price-3" readonly />
+                        </div>
+
+                        <!-- Credit Card Details -->
+                    </div>
+                    <div class="container card-container">
+                        <h2 id="yui_3_17_2_1_1721228574982_747">Credit Card Details</h2>
+                        <p>Enter your card information below. You will be charged after service has been rendered.
+                        </p>
+                        <div class="card-error-new">
+                            <div class="error-alert">
+                                <div class="error-icon">✖</div>
+                                <div class="error-card-message">
+                                    <strong>Something went wrong</strong>
+                                    <p style="margin: 0">Please complete the form to submit.</p>
+                                </div>
+                                <div class="card-close">✖</div>
+                            </div>
+                        </div>
+                        <div id="card-element">
+                            <!-- A Stripe Element will be inserted here. -->
+                        </div>
+                        <div id="card-errors" role="alert"></div> <!-- Display card errors -->
+                        <button type="submit" id="complete-booking-button" style="position: relative">Complete
+                            Booking <div id="loader" class="loader" style="position: absolute"></div></button>
+                    </div>
+                </div>
+
             </div>
+        </form>
     </section>
     <!-- main end  -->
 @endsection
-
-
-<style>
-    .card-error-new {
-        display: none;
-    }
-
-    .error-alert {
-        display: flex;
-        align-items: center;
-        background-color: #ffeeee;
-        color: #d9534f;
-        padding: 5px 20px;
-        border-radius: 5px;
-        font-family: Arial, sans-serif;
-        width: 100%;
-        position: relative;
-        margin-bottom: 20px;
-    }
-
-    .error-alert .error-icon {
-        background: #f56c6c;
-        color: #fff;
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        border-radius: 100%;
-        height: 10;
-        width: 10px;
-        height: 10px;
-        padding: 12px;
-        margin-right: 15px;
-    }
-
-    .card-close {
-        position: absolute;
-        top: 10%;
-        z-index: 100;
-        cursor: pointer;
-        right: 2%;
-    }
-
-    #complete-booking-button {
-        display: flex;
-        justify-content: center;
-        align-items: center;
-    }
-
-    .loader {
-        border: 3px solid #f3f3f3;
-        /* Light grey */
-        border-top: 3px solid #3498db;
-        /* Blue */
-        border-radius: 50%;
-        width: 40px;
-        height: 40px;
-        -webkit-animation: spin 1s linear infinite;
-        /* Safari */
-        animation: spin 1s linear infinite;
-        position: absolute;
-        top: 0;
-        right: 0;
-        left: 0;
-        bottom: 0;
-        margin: auto;
-        display: none;
-    }
-
-    @-webkit-keyframes spin {
-        0% {
-            -webkit-transform: rotate(0deg);
-        }
-
-        100% {
-            -webkit-transform: rotate(360deg);
-        }
-    }
-
-    @keyframes spin {
-        0% {
-            transform: rotate(0deg);
-        }
-
-        100% {
-            transform: rotate(360deg);
-        }
-    }
-</style>
