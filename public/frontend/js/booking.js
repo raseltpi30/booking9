@@ -160,14 +160,14 @@ $(document).ready(function () {
             $('#frequency-discount').text('');
         }
 
-        if (discountCode === 'WELCOME10%') {
-            discountAmount = total * 0.10;
-            $('#discount-amount').text(`Discount (10%): -$${discountAmount.toFixed(2)}`);
-            $('#total-price-3').val(discountAmount.toFixed(2));
-        } else {
-            discountAmount = 0;
-            $('#discount-amount').text('');
-        }
+        // if (discountCode === 'WELCOME10%') {
+        //     discountAmount = total * 0.10;
+        //     $('#discount-amount').text(`Discount (10%): -$${discountAmount.toFixed(2)}`);
+        //     $('#total-price-3').val(discountAmount.toFixed(2));
+        // } else {
+        //     discountAmount = 0;
+        //     $('#discount-amount').text('');
+        // }
 
         total -= discountAmount;
         $('#total').text(`$${total.toFixed(2)}`);
@@ -178,19 +178,89 @@ $(document).ready(function () {
         window.extrasObject = extrasObject;
     };
 
-    const applyDiscountCode = () => {
-        // console.log('Apply Code button clicked');
-        const inputCode = $('.discount-code-input').val().trim().toUpperCase();
-        // console.log('Entered Discount Code:', inputCode);
-        if (inputCode === 'WELCOME10%') {
-            discountCode = inputCode;
-            alert('Discount code applied successfully!');
-        } else {
-            discountCode = '';
-            alert('Invalid discount code');
+    // const applyDiscountCode = () => {
+    //     // console.log('Apply Code button clicked');
+    //     const inputCode = $('.discount-code-input').val().trim().toUpperCase();
+    //     // console.log('Entered Discount Code:', inputCode);
+    //     if (inputCode === 'WELCOME10%') {
+    //         discountCode = inputCode;
+    //         alert('Discount code applied successfully!');
+    //     } else {
+    //         discountCode = '';
+    //         alert('Invalid discount code');
+    //     }
+    //     calculateTotal();
+    // };
+
+    $.ajaxSetup({
+        headers: {
+            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content'),
         }
-        calculateTotal();
+    });
+
+
+    // const applyDiscountCode = () => {
+    //     const inputCode = $('.discount-code-input').val().trim();
+    //     const total = parseFloat($('#total-price-input').val());
+
+
+    //     console.log(total);
+
+    //     let discountAmount = 0;
+
+    //     if (inputCode === 'WELCOME10%') {
+    //         discountAmount = total * 0.10; // Calculate 10% discount
+    //         $('#discount-amount').text(`Discount (10%): -$${discountAmount.toFixed(2)}`);
+    //         $('#total-price-3').val((discountAmount).toFixed(2)); // Update the total price
+    //         alert(`Discount code applied! You saved $${discountAmount.toFixed(2)}.`);
+    //     } else {
+    //         $('#discount-amount').text(''); // Clear the discount amount if code is invalid
+    //         alert('Invalid discount code. Please try again.');
+    //     }
+    // };
+
+    const applyDiscountCode = () => {
+        const inputCode = $('.discount-code-input').val().trim();
+        const total = parseFloat($('#total-price-input').val());
+
+        console.log(total);
+
+        // Make an AJAX request to check the coupon
+        $.ajax({
+            url: '/check-coupon',
+            method: 'GET',
+            data: { code: inputCode },
+            success: (response) => {
+                let discountAmount = 0;
+
+                if (response.valid) {
+                    discountAmount = total * (response.discount / 100); // Calculate discount based on percentage
+                    $('#discount-amount').text(`Discount (${response.discount}%): -$${discountAmount.toFixed(2)}`);
+                    // total -= discountAmount; // Calculate new total
+                    $('#total-price-3').val(discountAmount.toFixed(2)); // Update the total price
+                    alert(`Discount code applied! You saved $${discountAmount.toFixed(2)}.`);
+                } else {
+                    $('#discount-amount').text(''); // Clear the discount amount if code is invalid
+                    alert('Invalid discount code. Please try again.');
+                }
+            },
+            error: (err) => {
+                console.error('Error checking discount code:', err);
+                alert('An error occurred while checking the discount code. Please try again.');
+            }
+
+        });
+
     };
+    const inputCode = $('.discount-code-input').val().trim();
+    const initialTotal = parseFloat($('#total-price-input').val());
+    applyDiscountCode(inputCode, initialTotal);
+
+    console.log(initialTotal);
+
+
+
+
 
     const resetAllAddOns = () => {
         $('.extra-item').removeClass('highlighted always-visible').css('pointer-events', 'auto').find('.counter').text('');
@@ -293,11 +363,6 @@ $(document).ready(function () {
     calculateTotal();
 
 
-    $.ajaxSetup({
-        headers: {
-            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content'),
-        }
-    });
 
     // Initialize Stripe
     var stripe = Stripe('pk_test_51PylzqRq0gWoIKN4CJpBWQP5AOiDUYAUZ8V4bsG2vKKRRWYO3j1eD90VYwpGhWstTlz3fJRDPifKUzvSJpIIWF4B00Wl8MLfdK'); // Replace with your Stripe public key
@@ -412,7 +477,7 @@ $(document).ready(function () {
             validateField(field);
         });
     });
-    $('input[name="frequency"]').on('change', function() {
+    $('input[name="frequency"]').on('change', function () {
         // Hide the error message when an option is selected
         $('#error-message').hide();
     });

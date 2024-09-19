@@ -56,34 +56,34 @@ class BookingController extends Controller
                 'source' => $validatedData['stripeToken'],
                 'description' => 'Payment for service',
                 'metadata' => [
-                    'firstName' => $validatedData['firstName'],
-                    'lastName' => $validatedData['lastName'],
-                    'email' => $validatedData['email'],
+                    'First Name' => $validatedData['firstName'],
+                    'Last Name' => $validatedData['lastName'],
+                    'Email' => $validatedData['email'],
                     'phone' => $validatedData['phone'],
-                    'street' => $validatedData['street'],
-                    'apt' => $validatedData['apt'],
-                    'city' => $validatedData['city'],
-                    'postalCode' => $validatedData['postalCode'],
-                    'service' => $validatedData['service'],
-                    'bathroom' => $validatedData['bathroom'],
-                    'typeOfService' => $validatedData['typeOfService'],
-                    'storey' => $validatedData['storey'],
-                    'frequency' => $validatedData['frequency'],
-                    'day' => $validatedData['day'],
-                    'time' => $validatedData['time'],
-                    'discountPercentage' => $validatedData['discountPercentage'] ?? null,
-                    'discountAmount' => $validatedData['discountAmount'] ?? null,
-                    'couponDiscountAmount' => isset($validatedData['couponDiscountAmount']) && $validatedData['couponDiscountAmount'] !== null
+                    'Street' => $validatedData['street'],
+                    'Apt' => $validatedData['apt'],
+                    'City' => $validatedData['city'],
+                    'Postal Code' => $validatedData['postalCode'],
+                    'Service' => $validatedData['service'],
+                    'Bathroom' => $validatedData['bathroom'],
+                    'Type Of Service' => $validatedData['typeOfService'],
+                    'Storey' => $validatedData['storey'],
+                    'Frequency' => $validatedData['frequency'],
+                    'Day' => $validatedData['day'],
+                    'Time' => $validatedData['time'],
+                    'Discount Percentage' => $validatedData['discountPercentage'] ?? null,
+                    'Discount Amount' => $validatedData['discountAmount'] ?? null,
+                    'Coupon Discount Amount' => isset($validatedData['couponDiscountAmount']) && $validatedData['couponDiscountAmount'] !== null
                         ? '$' . number_format($validatedData['couponDiscountAmount'], 2)
                         : null,
-                    'extras' => json_encode($validatedData['extras'] ?? null),
-                    'totalExtras' => $validatedData['totalExtras'] ?? null,
-                    'finalTotal' => '$' . $validatedData['finalTotal']
+                    'Extras' => json_encode($validatedData['extras'] ?? null),
+                    'Total Extras' => $validatedData['totalExtras'] ?? null,
+                    'FinalTotal' => '$' . $validatedData['finalTotal']
                 ]
             ]);
 
             // Send the email
-            Mail::to($validatedData['email'])->send(new PaymentDetailsMail($validatedData));
+            // Mail::to($validatedData['email'])->send(new PaymentDetailsMail($validatedData));
 
             // Insert data into the database
             $bookingId = DB::table('bookings')->insertGetId([

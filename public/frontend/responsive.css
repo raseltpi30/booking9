@@ -44,6 +44,10 @@
     .container h1 {
         font-size: 51px;
     }
+    #custom-section .features {
+        display: grid;
+        grid-template-columns: repeat(2, 1fr); /* Responsive grid */
+    }
 
 }
 
@@ -82,11 +86,12 @@
         width: 100%;
         top: 100%;
         left: 0;
-        padding: 30px;
+        border-top:1px solid #E5E9EF;
+        padding: 10px 0 20px 0;
     }
 
     nav ul li a {
-        font-size: 25px;
+        font-size: 18px;
         padding-top: 1rem;
         z-index: 100000;
     }
@@ -127,7 +132,6 @@
 }
 
 @media all and (max-width: 768px) {
-
     .outer-container {
         padding: 0;
     }
@@ -157,6 +161,9 @@
     }
     .footer-right{
         width: unset !important;
+    }
+    #custom-section .features {
+        gap: 20px;
     }
 
 }
@@ -188,6 +195,10 @@
 
     .booking-page .radio-item {
         margin-top: 1rem;
+    }
+    #custom-section .features {
+        display: grid;
+        grid-template-columns: repeat(1, 1fr); /* Responsive grid */
     }
 
 }

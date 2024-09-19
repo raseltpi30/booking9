@@ -1,6 +1,7 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\CouponController;
 
 /*
 |--------------------------------------------------------------------------
@@ -26,3 +27,7 @@ Route::group(['namespace' => 'App\Http\Controllers\frontend'], function () {
     Route::get('/payment-canceled', 'BookingController@paymentCanceled')->name('payment.canceled');
     // Route::get('/cancel', 'BookingController@cancel')->name('payment.succe');
 });
+
+Route::get('/check-coupon', [CouponController::class, 'checkCoupon']);
+// Route::post('/remove-coupon', [CouponController::class, 'removeCoupon']);
+

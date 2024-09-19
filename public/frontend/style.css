@@ -406,17 +406,16 @@
 
 /* Features container */
 #custom-section .features {
-    display: flex;
-    justify-content: center;
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    /* Responsive grid */
     gap: 60px;
-    flex-wrap: nowrap;
+    /* Space between items */
+    justify-items: center;
+    /* Center items in their grid cells */
 }
 
 /* Adjust the feature icon position */
-#custom-section .feature-item .feature-icon {
-    margin-left: 49px;
-    /* Adjust this value as needed */
-}
 
 /* Individual feature items */
 #custom-section .feature-item {
@@ -429,7 +428,7 @@
 /* Feature icons */
 #custom-section .feature-icon {
     display: block;
-    margin: 0 auto 20px;
+    margin: 0 auto 20px auto;
     width: 70px !important;
     height: 70px !important;
 }
@@ -456,15 +455,10 @@
 
     /* Adjust the position of the heading */
     #custom-section h3 {
-        transform: translateX(-17px);
-        /* Adjust this value as needed */
+        font-size: 20px;
     }
 
-
-
     #custom-section .feature-item .feature-icon {
-        margin-left: 145px;
-        /* Adjust this value as needed */
         transform: translateY(-15px)
     }
 
@@ -513,18 +507,7 @@
         box-sizing: border-box;
         position: relative;
         z-index: 2;
-    }
-
-    #custom-section .features {
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        gap: 20px;
-        width: 100%;
-        transform: translateX(-10px);
-        /* Shift features slightly to the left */
-        position: relative;
-        z-index: 2;
+        font-weight: 300;
     }
 
     #custom-section .feature-item {
@@ -538,10 +521,14 @@
     #custom-section .feature-icon {
         display: block;
         margin: 0 auto 10px auto;
-        width: 50px !important;
-        height: 50px !important;
         position: relative;
         z-index: 2;
+        display: flr;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        width: 60px !important;
+        height: 60px !important;
     }
 }
 
@@ -676,19 +663,10 @@
 
     .promo-text {
         max-width: 100%;
-        /* Ensure the text block does not exceed the container width */
         padding: 0 10px;
-        /* Ensure padding on smaller screens */
-        margin: -10px auto 0 auto;
-        /* Move up by 10px with a negative top margin */
         text-align: center;
-        /* Center-align text */
         box-sizing: border-box;
-        /* Include padding in the element's total width and height */
         position: relative;
-        /* Allow positioning adjustments */
-        top: -20px;
-        /* Move up by 10px */
     }
 
     .promo-text h1 {
@@ -1382,17 +1360,21 @@ footer,
     border-radius: 5px;
     cursor: pointer;
 }
+
 .footer button:hover {
     background-color: var(--footer-text-color) !important;
     /* Black color on hover */
     color: var(--footer-bg-color) !important;
 }
+
 a:hover {
     color: inherit !important;
 }
+
 .footer-column.footer-contact h3 {
     margin-bottom: 5px;
 }
+
 .footer-column.footer-contact form {
     margin-bottom: 10px;
 }
@@ -1419,17 +1401,17 @@ a:hover {
 /*****************************************/
 
 #block-yui_3_17_2_1_1720516738964_3057 {
-	background-size: cover;
-	background-position: center;
-	width: 100%;
-	min-height: 100vh;
-	margin: 0;
-	padding: 0;
-	overflow: hidden;
-	background-image: url("https://static1.squarespace.com/static/6682192d1022a0098a1c29d9/t/66ba17f0d38adb6346a8afc3/1723471857359/First+Class+Cleaning+Home.jpg");
-	background-position: center center !important;
-	background-size: cover !important;
-	min-height: 700px;
+    background-size: cover;
+    background-position: center;
+    width: 100%;
+    min-height: 100vh;
+    margin: 0;
+    padding: 0;
+    overflow: hidden;
+    background-image: url("https://static1.squarespace.com/static/6682192d1022a0098a1c29d9/t/66ba17f0d38adb6346a8afc3/1723471857359/First+Class+Cleaning+Home.jpg");
+    background-position: center center !important;
+    background-size: cover !important;
+    min-height: 700px;
 }
 
 /* Add a dark overlay */
