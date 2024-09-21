@@ -71,19 +71,19 @@ class BookingController extends Controller
                     'Frequency' => $validatedData['frequency'],
                     'Day' => $validatedData['day'],
                     'Time' => $validatedData['time'],
-                    'Discount Percentage' => $validatedData['discountPercentage'] ?? null,
-                    'Discount Amount' => $validatedData['discountAmount'] ?? null,
+                    'Discount Percentage' => $validatedData['discountPercentage'] .'%' ?? null,
+                    'Discount Amount' => '$' . $validatedData['discountAmount'] ?? null,
                     'Coupon Discount Amount' => isset($validatedData['couponDiscountAmount']) && $validatedData['couponDiscountAmount'] !== null
                         ? '$' . number_format($validatedData['couponDiscountAmount'], 2)
                         : null,
                     'Extras' => json_encode($validatedData['extras'] ?? null),
-                    'Total Extras' => $validatedData['totalExtras'] ?? null,
+                    'Total Extras' => '$' .$validatedData['totalExtras'] ?? null,
                     'FinalTotal' => '$' . $validatedData['finalTotal']
                 ]
             ]);
 
             // Send the email
-            // Mail::to($validatedData['email'])->send(new PaymentDetailsMail($validatedData));
+            Mail::to($validatedData['email'])->send(new PaymentDetailsMail($validatedData));
 
             // Insert data into the database
             $bookingId = DB::table('bookings')->insertGetId([

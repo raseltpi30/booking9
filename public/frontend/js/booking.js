@@ -1,5 +1,6 @@
 $(document).ready(function () {
     console.log('DOM fully loaded and parsed');
+    $('#total-price-3').val(''); // for refresh page coupon when i refresh page coupon input will 0.
 
     // Extract query parameters
     const urlParams = new URLSearchParams(window.location.search);
@@ -85,6 +86,7 @@ $(document).ready(function () {
     let discountCode = '';
     let discountAmount = 0;
 
+
     const calculateTotal = () => {
         let total = 0;
         let extrasTotal = 0;
@@ -169,6 +171,62 @@ $(document).ready(function () {
         //     $('#discount-amount').text('');
         // }
 
+        $('.apply-discount-button').on('click', function () {
+            const discountCode = $('#discount-code').val();  // Get the coupon code entered by the use
+            // Coupon Discount Calculation
+
+            if (discountCode === '') {
+                // Show error if the coupon code is empty
+                toastr.error('Coupon Code is Required!');
+                return;  // Stop further execution
+            } else {
+                // $('#discount-code-error').hide();
+                $.ajax({
+                    url: '/check-coupon',  // URL to the Laravel route for applying the coupon
+                    type: 'POST',
+                    data: {
+                        couponCode: discountCode,  // Send the entered coupon code
+                        _token: $('meta[name="csrf-token"]').attr('content')  // CSRF token for security
+                    },
+                    success: function (data) {
+                        let discountAmount = 0;  // Initialize discount amount
+                        if (data.success) {
+                            $('#discount-code-error').hide();
+                            // If the coupon code is valid, apply the discount
+                            discountAmount = total * (data.discount_percent / 100);  // Calculate discount
+                            $('#discount-amount').text(`Discount (${data.discount_percent}%): -$${discountAmount.toFixed(2)}`);  // Show discount
+                            $('#total-price-3').val(discountAmount.toFixed(2));  // Set the discount amount input value
+                            // console.log(discountAmount);
+
+                            // console.log(data.message);
+                            // $('#discount-code').val(''); for hid this value of discout code
+                            const successMessage = `${data.message} Discount amount: <span style="color: #fff;">-$${discountAmount.toFixed(2)}</span>.`;
+                            toastr.success(successMessage);
+                            $('.apply-discount-button').prop('disabled', true);
+                            $('#discount-code').prop('disabled', true);
+                            // disableAllFields();
+                            $('.coupon-work').addClass('disabled');
+                        }
+                        else {
+                            // If the coupon is invalid, clear the discount display
+                            $('#discount-amount').text('');
+                            // $('#discount-code-error').text(data.message);
+                            toastr.error(data.message);
+                        }
+
+                        // Subtract coupon discount from total
+                        total -= discountAmount;
+                        $('#total').text(`$${total.toFixed(2)}`);  // Show the final total after discounts
+                        $('#total-price-input').val(total.toFixed(2));  // Set the final total in hidden input
+                    },
+                    error: function (error) {
+                        console.error('Error:', error);
+                    }
+                });
+            }
+
+        });
+
         total -= discountAmount;
         $('#total').text(`$${total.toFixed(2)}`);
         $('#total-price-input').val(total.toFixed(2));
@@ -178,89 +236,11 @@ $(document).ready(function () {
         window.extrasObject = extrasObject;
     };
 
-    // const applyDiscountCode = () => {
-    //     // console.log('Apply Code button clicked');
-    //     const inputCode = $('.discount-code-input').val().trim().toUpperCase();
-    //     // console.log('Entered Discount Code:', inputCode);
-    //     if (inputCode === 'WELCOME10%') {
-    //         discountCode = inputCode;
-    //         alert('Discount code applied successfully!');
-    //     } else {
-    //         discountCode = '';
-    //         alert('Invalid discount code');
-    //     }
-    //     calculateTotal();
-    // };
-
     $.ajaxSetup({
         headers: {
             'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content'),
         }
     });
-
-
-    // const applyDiscountCode = () => {
-    //     const inputCode = $('.discount-code-input').val().trim();
-    //     const total = parseFloat($('#total-price-input').val());
-
-
-    //     console.log(total);
-
-    //     let discountAmount = 0;
-
-    //     if (inputCode === 'WELCOME10%') {
-    //         discountAmount = total * 0.10; // Calculate 10% discount
-    //         $('#discount-amount').text(`Discount (10%): -$${discountAmount.toFixed(2)}`);
-    //         $('#total-price-3').val((discountAmount).toFixed(2)); // Update the total price
-    //         alert(`Discount code applied! You saved $${discountAmount.toFixed(2)}.`);
-    //     } else {
-    //         $('#discount-amount').text(''); // Clear the discount amount if code is invalid
-    //         alert('Invalid discount code. Please try again.');
-    //     }
-    // };
-
-    const applyDiscountCode = () => {
-        const inputCode = $('.discount-code-input').val().trim();
-        const total = parseFloat($('#total-price-input').val());
-
-        console.log(total);
-
-        // Make an AJAX request to check the coupon
-        $.ajax({
-            url: '/check-coupon',
-            method: 'GET',
-            data: { code: inputCode },
-            success: (response) => {
-                let discountAmount = 0;
-
-                if (response.valid) {
-                    discountAmount = total * (response.discount / 100); // Calculate discount based on percentage
-                    $('#discount-amount').text(`Discount (${response.discount}%): -$${discountAmount.toFixed(2)}`);
-                    // total -= discountAmount; // Calculate new total
-                    $('#total-price-3').val(discountAmount.toFixed(2)); // Update the total price
-                    alert(`Discount code applied! You saved $${discountAmount.toFixed(2)}.`);
-                } else {
-                    $('#discount-amount').text(''); // Clear the discount amount if code is invalid
-                    alert('Invalid discount code. Please try again.');
-                }
-            },
-            error: (err) => {
-                console.error('Error checking discount code:', err);
-                alert('An error occurred while checking the discount code. Please try again.');
-            }
-
-        });
-
-    };
-    const inputCode = $('.discount-code-input').val().trim();
-    const initialTotal = parseFloat($('#total-price-input').val());
-    applyDiscountCode(inputCode, initialTotal);
-
-    console.log(initialTotal);
-
-
-
-
 
     const resetAllAddOns = () => {
         $('.extra-item').removeClass('highlighted always-visible').css('pointer-events', 'auto').find('.counter').text('');
@@ -348,9 +328,7 @@ $(document).ready(function () {
         });
 
         $('#type-of-service').change(handleTypeOfServiceChange);
-        $('.apply-discount-button').click(applyDiscountCode);
-
-
+        // $('.apply-discount-button').click(applyDiscountCode);
     };
 
     setupEventListeners();
@@ -399,23 +377,7 @@ $(document).ready(function () {
         }
     });
 
-    // $('#card').on('change', function(event) {
-    //     alert('cart-click');
-    //     // Select the error display element
-    //     var displayError = $('#card-errors');
-
-    //     // Check if there's an error in the event object
-    //     if (event.originalEvent && event.originalEvent.error) {
-    //         // Set the text of the error element to the error message
-    //         displayError.text(event.originalEvent.error.message);
-    //     } else {
-    //         // Clear the error message if there's no error
-    //         displayError.text('');
-    //     }
-    // });
-
-
-    // for blur validate
+    // for blur validate and input valid
     let allFieldsValid = true;
     // Define the validation functions
     function validatePhoneNumber(phoneNumber) {
@@ -482,37 +444,6 @@ $(document).ready(function () {
         $('#error-message').hide();
     });
 
-    // Function to validate a single field
-    // function validateField(field) {
-    //     const value = $(field.id).val().trim();
-    //     const errorElement = $(`${field.id}-error`);
-
-    //     if (!value) {
-    //         allFieldsValid = false;
-    //         errorElement.text(`The ${field.name} field is required.`);
-    //     } else if (field.validate) {
-    //         // Perform specific validation if provided
-    //         const isValid = field.validate(value);
-    //         if (!isValid) {
-    //             allFieldsValid = false;
-    //             errorElement.text(`The ${field.name} is not valid.`);
-    //         } else {
-    //             errorElement.text(''); // Clear error message if valid
-    //         }
-    //     } else {
-    //         errorElement.text(''); // Clear error message if valid
-    //     }
-
-    //     errorElement.toggle(!!errorElement.text()); // Show or hide the error message
-    // }
-
-    // // Add event listeners for each field
-    // fields.forEach(field => {
-    //     $(field.id).on('input blur change', function () {
-    //         validateField(field);
-    //     });
-    // });
-
     $('#complete-booking-button').click(function (event) {
         event.preventDefault(); // Prevent the default form submission
 
@@ -528,75 +459,6 @@ $(document).ready(function () {
             // Show error message if none is selected
             $('#error-message').show();
         };
-
-        // Validate each field
-        // const fields = [
-        //     { id: '#first-name', name: 'firstName' },
-        //     { id: '#last-name', name: 'lastName' },
-        //     { id: '#email', name: 'email' },
-        //     { id: '#phone', name: 'phone' },
-        //     { id: '#street', name: 'street' },
-        //     { id: '#city', name: 'city' },
-        //     { id: '#postal-code', name: 'postal-code' },
-        //     { id: '#day', name: 'day' },
-        //     { id: '#time', name: 'time' },
-        // ];
-
-        // fields.forEach(field => {
-        //     const value = $(field.id).val().trim();
-        //     if (!value) {
-        //         allFieldsValid = false;
-        //         $(`${field.id}-error`).text(`The ${field.name} field is required.`);
-        //     }
-        // })
-
-        // function validatePhoneNumber(phoneNumber) {
-        //     const phoneRegex = /^(\+8801|01)[3-9]\d{8}$/;
-        //     return phoneRegex.test(phoneNumber);
-        // }
-
-        // // Email validation
-        // function validateEmail(email) {
-        //     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-        //     return emailRegex.test(email);
-        // }
-
-        // // Define fields and their validations
-        // const fields = [
-        //     { id: '#first-name', name: 'firstName' },
-        //     { id: '#last-name', name: 'lastName' },
-        //     { id: '#email', name: 'email', validate: validateEmail }, // Add email validation
-        //     { id: '#phone', name: 'phone', validate: validatePhoneNumber }, // Add phone number validation
-        //     { id: '#street', name: 'street' },
-        //     { id: '#city', name: 'city' },
-        //     { id: '#postal-code', name: 'postal-code' },
-        //     { id: '#day', name: 'day' },
-        //     { id: '#time', name: 'time' },
-        // ];
-
-        // // Validate each field
-        // fields.forEach(field => {
-        //     const value = $(field.id).val().trim();
-        //     const errorElement = $(`${field.id}-error`);
-
-        //     if (!value) {
-        //         allFieldsValid = false;
-        //         errorElement.text(`The ${field.name} field is required.`);
-        //     } else if (field.validate) {
-        //         // Perform specific validation if provided
-        //         const isValid = field.validate(value);
-        //         if (!isValid) {
-        //             allFieldsValid = false;
-        //             errorElement.text(`The ${field.name} is not valid.`);
-        //         } else {
-        //             errorElement.text(''); // Clear error message if valid
-        //         }
-        //     } else {
-        //         errorElement.text(''); // Clear error message if valid
-        //     }
-
-        //     errorElement.toggle(!!errorElement.text()); // Show or hide the error message
-        // });
 
         if (allFieldsValid) {
             $('.loader').show();
@@ -630,15 +492,12 @@ $(document).ready(function () {
             const discountPercentage = frequencyDiscounts[frequency] || 0;
             // Update the frequency discount display
             if (discountPercentage > 0) {
-                $('#frequency-discount').text(`Frequency Discount: -$${discountAmount.toFixed(2)}`);
+                $('#frequency-discount').text(`-$${discountAmount.toFixed(2)}`);
             } else {
                 $('#frequency-discount').text('');
             }
             stripe.createToken(card).then(result => {
                 if (result.error) {
-                    // ('.loader').hide();
-                    // // Display error.message in your UI
-                    // alert(result.error.message);
                     $('.loader').hide();
                 } else {
 
@@ -676,13 +535,12 @@ $(document).ready(function () {
                         data: bookingData,
                         success: function (response) {
                             console.log('Booking successful:', response);
-                            // $('#payment-form')[0].reset();
-                            // card.clear();
+                            $('#payment-form')[0].reset();
+                            card.clear();
                             setTimeout(() => {
                                 $('.loader').hide();
-                                alert('booking Success');
+                                toastr.success('booking success');
                                 // window.location.href = '/';
-
                             }, 500);
                         },
                         error: function (xhr) {

@@ -70,7 +70,7 @@ Booking
 
                     <h2 id="yui_3_17_2_1_1721228574982_664">Choose Your Services</h2>
                     <p>Tell us about your home</p>
-                    <div class="booking-page form-group">
+                    <div class="booking-page form-group coupon-work">
                         <div class="booking-page grid-item">
                             <label for="service">Service</label>
                             <select id="service" name="service">
@@ -101,7 +101,7 @@ Booking
                         </div>
                     </div>
 
-                    <div class="booking-page form-group">
+                    <div class="booking-page form-group coupon-work">
                         <div class="booking-page grid-item">
                             <label for="type-of-service">Type of Service</label>
                             <select id="type-of-service" name="type-of-service">
@@ -124,7 +124,7 @@ Booking
                         Extras section.</p>
                     <h2 id="yui_3_17_2_1_1721228574982_675">Select Extras</h2>
                     <p>Add upgrades to your service</p>
-                    <div class="booking-page extras-group">
+                    <div class="booking-page extras-group coupon-work">
                         <div class="booking-page extra-item walls-interior-windows" data-price="70">
                             <img src="https://static1.squarespace.com/static/6682192d1022a0098a1c29d9/t/66b34888eef7173402cfac33/1723025544944/Carpet+Cleaning.png"
                                 alt="Carpet Cleaning" loading="lazy">
@@ -302,7 +302,7 @@ Booking
 
                     <h2 id="yui_3_17_2_1_1721228574982_686">How Often?</h2>
                     <p>Select how often you'd like the service</p>
-                    <div class="booking-page frequency-group">
+                    <div class="booking-page frequency-group coupon-work">
                         <div class="booking-page radio-item">
                             <input type="radio" id="fortnightly" name="frequency" value="Fortnightly">
                             <label for="fortnightly">Fortnightly (Save 10%)</label>
@@ -312,11 +312,11 @@ Booking
                             <label for="monthly">Monthly (Save 5%)</label>
                         </div>
                         <div class="booking-page radio-item">
-                            <input type="radio" id="weekly" name="frequency" value="Weekly">
+                            <input type="radio" id="weekly" name="frequency" value="Weekly" checked>
                             <label for="weekly">Weekly (Save 15%)</label>
                         </div>
                         <div class="booking-page radio-item">
-                            <input type="radio" id="one-time" name="frequency" value="One-time" checked>
+                            <input type="radio" id="one-time" name="frequency" value="One-time">
                             <label for="one-time">One-time service</label>
                         </div>
                     </div>
@@ -385,6 +385,8 @@ Booking
                 <div class="discount-code-container">
                     <input type="text" id="discount-code" class="discount-code-input" placeholder="Discount Code">
                     <button type="button" class="apply-discount-button">Apply Code</button>
+                    <div id="discount-code-error" style="color: red;"></div>
+                    <div id="discount-code-success" style="color: green;"></div>
                 </div>
                 <div class="pricing-summary">
                     <div class="pricing-summary">
@@ -399,7 +401,7 @@ Booking
                         <ul id="selected-extras" style="font-size: 0.8em;"></ul>
                         <h3>Frequency Discount: <span id="frequency-discount" class="book-total"
                                 style="font-size: 0.8em;">-$0.00</span></h3>
-                        <h3>&nbsp; <span id="discount-amount" class="book-total" style="font-size: 0.8em;">$0.00</span>
+                        <h3>&nbsp; <span id="discount-amount" class="book-total" style="font-size: 0.8em;"></span>
                         </h3>
                         {{-- <p id="frequency-discount"></p> --}}
                         <div id="discount-amount" style="float: right;"></div>
@@ -441,3 +443,12 @@ Booking
 </section>
 <!-- main end  -->
 @endsection
+
+<style>
+    .disabled {
+        /* opacity: 0.5; */
+        /* Make it look disabled */
+        pointer-events: none;
+        /* Prevent interaction */
+    }
+</style>

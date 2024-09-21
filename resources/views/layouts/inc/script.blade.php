@@ -1,6 +1,27 @@
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script src="https://js.stripe.com/v3/"></script>
 <script src="{{asset('frontend')}}/js/booking.js"></script>
+<script type="text/javascript" src="{{ asset('backend/plugins/toastr/toastr.min.js') }}"></script>
+
+<script>
+    @if(Session::has('message'))
+  var type = "{{Session::get('alert-type','bg-info')}}"
+  switch (type) {
+      case 'info':
+          toastr.info("{{ Session::get('message') }}");
+          break;
+      case 'success':
+          toastr.success("{{ Session::get('message') }}");
+          break;
+      case 'warning':
+          toastr.warning("{{ Session::get('message') }}");
+          break;
+      case 'error':
+          toastr.error("{{ Session::get('message') }}");
+          break;
+  }
+  @endif
+</script>
 <script>
     $(document).ready(function() {
         var currentRoute = @json(url()->current());

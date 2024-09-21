@@ -14,12 +14,15 @@
     <link rel="stylesheet" href="{{ asset('frontend') }}/booking.css">
     <link rel="stylesheet" href="{{ asset('frontend') }}/responsive.css">
 
+    {{-- for toastar --}}
+    <link rel="stylesheet" type="text/css" href="{{ asset('backend/plugins/toastr/toastr.css') }}">
+
 </head>
 
 <body>
     @include('layouts.inc.header')
     <!-- main content start  -->
-     @yield('main_content')
+    @yield('main_content')
     <!-- main content end -->
     @include('layouts.inc.footer')
     <!-- footer end  -->
