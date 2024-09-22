@@ -34,16 +34,14 @@ class LoginController extends Controller
                 return redirect()->route('admin.home')->with($notification); // Redirect to intended page after login
             } else {
                 Auth::logout(); // Log out the user if they are not an admin
-                return back()->withErrors([
-                    'email' => 'You do not have admin access.',
-                ]);
+                $notification = array('message' => 'You do not have admin access!','alert-type' => 'error');
+                return redirect()->back()->with($notification);
             }
         }
 
         // Return back with error if login fails
-        return back()->withErrors([
-            'email' => 'The provided credentials do not match our records.',
-        ]);
+        $notification = array('message' => 'The provided credentials do not match our records!','alert-type' => 'error');
+        return redirect()->back()->with($notification);
     }
 
     public function logout(Request $request)

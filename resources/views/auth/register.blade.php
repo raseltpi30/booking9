@@ -1,8 +1,8 @@
-@extends('layouts.admin')
+@extends('layouts.login')
 @section('title')
     Register
 @endsection
-@section('admin_content')
+@section('login_content')
 <div class="container-scroller">
     <div class="container-fluid page-body-wrapper full-page-wrapper">
         <div class="content-wrapper d-flex align-items-center auth px-0">

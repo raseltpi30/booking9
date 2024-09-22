@@ -30,7 +30,6 @@ class RegisterController extends Controller
         ]);
 
         // Log in the user after registration
-        auth()->attempt($request->only('email', 'password'));
         $notification = array('message' => 'Register Successfully!','alert-type' => 'success');
         return redirect()->route('login')->with($notification); // Redirect to intended page after login
     }
@@ -45,3 +44,5 @@ class RegisterController extends Controller
         ]);
     }
 }
+
+// A1b#C2d@

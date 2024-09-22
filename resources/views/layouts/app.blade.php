@@ -13,7 +13,6 @@
     <link rel="stylesheet" href="{{ asset('frontend') }}/css/services.css">
     <link rel="stylesheet" href="{{ asset('frontend') }}/booking.css">
     <link rel="stylesheet" href="{{ asset('frontend') }}/responsive.css">
-
     {{-- for toastar --}}
     <link rel="stylesheet" type="text/css" href="{{ asset('backend/plugins/toastr/toastr.css') }}">
 

@@ -83,7 +83,7 @@ class BookingController extends Controller
             ]);
 
             // Send the email
-            Mail::to($validatedData['email'])->send(new PaymentDetailsMail($validatedData));
+            // Mail::to($validatedData['email'])->send(new PaymentDetailsMail($validatedData));
 
             // Insert data into the database
             $bookingId = DB::table('bookings')->insertGetId([

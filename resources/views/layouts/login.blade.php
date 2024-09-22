@@ -8,7 +8,7 @@
   <title> @yield('title') - Crystal Clean Sydney</title>
   <link rel="shortcut icon" href="{{asset('frontend/images/favicon.png')}}" type="image/x-icon">
   <!-- plugins:css -->
-
+ 
 
   <link rel="stylesheet" href="{{asset('backend')}}/assets/vendors/feather/feather.css">
   <link rel="stylesheet" href="{{asset('backend')}}/assets/vendors/mdi/css/materialdesignicons.min.css">
@@ -27,34 +27,13 @@
   <link rel="stylesheet" href="{{asset('backend')}}/assets/css/style.css">
   <!-- endinject -->
   <link rel="shortcut icon" href="{{asset('backend')}}/assets/images/favicon.png" />
-  {{-- for toastar --}}
-  <link rel="stylesheet" type="text/css" href="{{ asset('backend/plugins/toastr/toastr.css') }}">
-  <link rel="stylesheet" type="text/css" href="{{ asset('backend') }}/custom/style.css">
+   {{-- for toastar --}}
+   <link rel="stylesheet" type="text/css" href="{{ asset('backend/plugins/toastr/toastr.css') }}">
 </head>
 
 <body class="with-welcome-text">
-  {{-- Preloader --}}
-  <div id="preloader">
-    <div class="spinner-border" role="status">
-      <span class="sr-only">Loading...</span>
-    </div>
-  </div>
-
-  <div class="container-scroller">
-    <!-- partial:partials/_navbar.html -->
-    @include('layouts.admin_partial.navbar')
-    <!-- partial -->
-    <div class="container-fluid page-body-wrapper">
-      <!-- partial:partials/_sidebar.html -->
-      @include('layouts.admin_partial.sidebar')
-      <!-- partial -->
-      @yield('admin_content')
-      <!-- main-panel ends -->
-    </div>
-    <!-- page-body-wrapper ends -->
-  </div>
+  @yield('login_content')
   <!-- container-scroller -->
-
   <!-- plugins:js -->
   <script src="{{asset('backend')}}/assets/vendors/js/vendor.bundle.base.js"></script>
   <script src="{{asset('backend')}}/assets/vendors/bootstrap-datepicker/bootstrap-datepicker.min.js"></script>
@@ -79,7 +58,6 @@
 
   <script type="text/javascript" src="{{ asset('backend/plugins/toastr/toastr.min.js') }}"></script>
   <script src="{{ asset('backend/plugins/sweetalert/sweetalert.min.js') }}"></script>
-  <script src="{{ asset('backend') }}/custom/script.js"></script>
 
   <script>
     @if(Session::has('message'))
@@ -105,40 +83,44 @@
     $(document).on("click", "#delete", function(e){
       e.preventDefault();
       var link = $(this).attr("href");
-      swal({
-        title: "Are you Want to delete?",
-        text: "Once Delete, This will be Permanently Delete!",
-        icon: "warning",
-        buttons: true,
-        dangerMode: true,
-      })
-      .then((willDelete) => {
-        if (willDelete) {
-          window.location.href = link;
-        } else {
-          swal("Safe Data!");
-        }
-      });
-    });
-
+         swal({
+           title: "Are you Want to delete?",
+           text: "Once Delete, This will be Permanently Delete!",
+           icon: "warning",
+           buttons: true,
+           dangerMode: true,
+         })
+         .then((willDelete) => {
+           if (willDelete) {
+                window.location.href = link;
+           } else {
+             swal("Safe Data!");
+           }
+         });
+     });
+  </script>
+  {{-- before logout showing alert message --}}
+  <script>
     $(document).on("click", "#logout", function(e){
       e.preventDefault();
       var link = $(this).attr("href");
-      swal({
-        title: "Are you want to logout?",
-        icon: "warning",
-        buttons: true,
-        dangerMode: true,
-      })
-      .then((willDelete) => {
-        if (willDelete) {
-          window.location.href = link;
-        } else {
-          swal("Not Logout!");
-        }
-      });
-    });
+         swal({
+           title: "Are you want to logout?",
+           text: "",
+           icon: "warning",
+           buttons: true,
+           dangerMode: true,
+         })
+         .then((willDelete) => {
+           if (willDelete) {
+                window.location.href = link;
+           } else {
+             swal("Not Logout!");
+           }
+         });
+     });
   </script>
+
 </body>
 
 </html>

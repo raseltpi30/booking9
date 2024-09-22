@@ -227,7 +227,7 @@ Home
 
                 // Check email validity only if email is provided
                 if (email && !validateEmail(email)) {
-                    alert('Please enter a valid email address.');
+                    toastr.error('Please Insert a valid email');
                     return;
                 }
 
@@ -247,3 +247,10 @@ Home
         });
     </script>
 @endsection
+
+{{-- for toaster css  --}}
+{{-- #toast-container {
+	position: fixed;
+	z-index: 999999;
+	pointer-events: none;
+} --}}

@@ -1,8 +1,8 @@
-@extends('layouts.admin')
+@extends('layouts.login')
 @section('title')
     Admin Login
 @endsection
-@section('admin_content')
+@section('login_content')
 
 <div class="container-scroller">
     <div class="container-fluid page-body-wrapper full-page-wrapper">
