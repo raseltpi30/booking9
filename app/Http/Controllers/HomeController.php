@@ -26,6 +26,10 @@ class HomeController extends Controller
         // Fetch upcoming bookings (where day is in the future)
         $upcomingBookingsCount = Booking::where('day', '>', now()->format('Y-m-d'))->count();
 
+        $completedBookingsCount = Booking::where('status','completed')->count();
+
+        $canceledgBookingsCount = Booking::where('status','canceled')->count();
+
         // Fetch revenue data grouped by month for the current year
         $revenueData = DB::table('bookings')
             ->selectRaw('MONTH(day) as month, SUM(finalTotal) as total')
@@ -44,13 +48,15 @@ class HomeController extends Controller
         }
 
         // Fetch recent bookings (with pagination)
-        $bookings = Booking::orderBy('created_at', 'desc')->paginate(10);
+        $bookings = Booking::orderBy('created_at', 'desc')->where('status','processing')->take(5)->get();
 
         return view('admin.home', compact(
             'totalBookings', 
             'totalRevenue', 
             'totalCustomers', 
             'upcomingBookingsCount', 
+            'completedBookingsCount', 
+            'canceledgBookingsCount', 
             'bookings', 
             'fullYearRevenue' // Pass full year revenue data to the view
         ));

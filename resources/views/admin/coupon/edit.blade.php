@@ -18,8 +18,8 @@
         <div class="form-group">
             <label for="status">Coupon Status</label>
             <select name="status" class="form-control" id="status">
-                <option value="1" @if ($item->status == 1) @endif selected="">Active</option>
-                <option value="0" @if ($item->status == 0) @endif selected="">Inactive</option>
+                <option value="1" @if ($item->status == 1) selected @endif>Active</option>
+                <option value="0" @if ($item->status == 0) selected @endif>Inactive</option>
             </select>
         </div>
     </div>

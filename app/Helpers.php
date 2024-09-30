@@ -11,9 +11,9 @@ if (!function_exists('greeting')) {
                 return "Good Morning";
             }
         } else { // PM
-            if ($hour < 5) {
+            if ($hour > 5) {
                 return "Good Afternoon";
-            } elseif ($hour < 9) {
+            } elseif ($hour > 9) {
                 return "Good Evening"; // Evening from 5 PM to 9 PM
             } else {
                 return "Good Night"; // Night starts at 10 PM

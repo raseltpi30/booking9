@@ -6,7 +6,7 @@ Contact
 <div class="contact-container">
     <div class="contact-info">
         <h2 id="yui_3_17_2_1_1721038714633_424">Contact Us</h2>
-        <p>Email us at <a href="mailto:info@crystalcleansyd@gmail.com">info@crystalcleansyd@gmail.com</a></p>
+        <p>Email us at <a href="mailto:info@crystalcleansyd@gmail.com">info@crystalcleansydney.com.au</a></p>
         <p>Our average response time between 9:00 am and 6:00 pm is just 8 minutes. We're here and ready to assist
             you promptly!</p>
         <p>Give us a call at <a href="tel:0426280899">0426 280 899</a></p>

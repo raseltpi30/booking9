@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\Coupon; // Assuming your Coupon model is created
 use Carbon\Carbon; // Make sure to include Carbon for date handling
+use Illuminate\Support\Facades\DB;
 
 class CouponController extends Controller
 {
@@ -48,5 +49,32 @@ class CouponController extends Controller
                 'message' => 'Invalid coupon code!'  // You can customize this message as needed
             ]);
         }
+    }
+
+    public function customCoupon(Request $request)
+    {
+        // Get tomorrow's date
+        $tomorrow = Carbon::tomorrow()->toDateString();
+
+        // Prepare the new coupon data
+        $data = [
+            'coupon' => $request->coupon,
+            'discountPercent' => $request->discountPercent,
+            'valid_date' => $tomorrow,
+            'status' => 1,
+            'created_at' => now(),
+            'updated_at' => now(),
+        ];
+
+        // Delete the existing coupon if it exists
+        DB::table('coupons')->where('coupon', $request->coupon)->delete();
+
+        // Insert the new coupon
+        DB::table('coupons')->insert($data);
+
+        return response()->json([
+            'success' => true,
+            'message' => 'Coupon created successfully! Your Coupon is "' . $request->coupon . '"!'
+        ]);
     }
 }

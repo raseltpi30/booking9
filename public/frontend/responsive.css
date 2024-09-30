@@ -25,9 +25,17 @@
         top: 10%;
         transform: unset;
     }
+    #discount-code {
+        padding: 10px 16px;
+        margin-right: 10px;
+    }
 }
 
 @media all and (max-width: 1200px) {
+    #discount-code {
+        padding: 10px 0;
+        margin-right: 0;
+    }
     .logo a h1 {
         color: #000 !important;
         /* Avoid using !important if possible */
@@ -44,11 +52,19 @@
     .container h1 {
         font-size: 51px;
     }
+
     #custom-section .features {
         display: grid;
-        grid-template-columns: repeat(2, 1fr); /* Responsive grid */
+        grid-template-columns: repeat(2, 1fr);
+        /* Responsive grid */
     }
-
+    .card-container {
+        padding-right: 12px;
+    }
+    .faq-container {
+        margin: 70px 20px;
+    }
+    
 }
 
 @media all and (min-width: 992px) {
@@ -76,6 +92,7 @@
     .menus,
     .close-btn {
         font-size: 28px;
+        color: #000;
     }
 
     nav ul {
@@ -86,7 +103,7 @@
         width: 100%;
         top: 100%;
         left: 0;
-        border-top:1px solid #E5E9EF;
+        border-top: 1px solid #E5E9EF;
         padding: 10px 0 20px 0;
     }
 
@@ -115,6 +132,7 @@
         margin: 0;
         margin-top: 20px;
     }
+
     #yui_3_17_2_1_1721028986214_530,
     .container h1 {
         font-size: 41px;
@@ -129,6 +147,23 @@
         padding-left: 10px;
         border: none;
     }
+
+    .footer-left {
+        width: 50%;
+    }
+
+    .footer-right {
+        width: 40%;
+    }
+
+    .booking-page .pricing-summary {
+        position: unset;
+    }
+    #discount-code {
+        padding: 10px 25px;
+        margin-right: 10px;
+    }
+    
 }
 
 @media all and (max-width: 768px) {
@@ -139,6 +174,7 @@
     .new-code {
         top: 0;
     }
+
     #yui_3_17_2_1_1721028986214_530,
     .container h1 {
         font-size: 32px;
@@ -152,23 +188,60 @@
     .booking-page .extras-group {
         grid-template-columns: repeat(3, 1fr) !important;
     }
-    .footer-area{
+
+    .footer-area {
         flex-direction: column;
     }
-    .footer-left{
-        width: unset !important;
-        margin-bottom: 40px;
-    }
-    .footer-right{
-        width: unset !important;
-    }
+
     #custom-section .features {
         gap: 20px;
+    }
+
+    .review-container {
+        grid-template-columns: repeat(2, auto);
+    }
+
+    .footer-left,
+    .footer-right {
+        width: 100%;
+    }
+
+    .footer-right {
+        margin-top: 20px;
+    }
+
+    .footer-left h1 {
+        font-size: 22px;
+        color: #2C2C2C;
+    }
+
+    .testimonial-area {
+        padding: 30px 0;
+    }
+
+    .footer {
+        padding: 30px 50px;
+    }
+
+    #discount-code {
+        padding: 10px 26px;
+        margin-right: 10px;
+    }
+    .faq-container {
+        margin: 0;
+        margin: 50px 20px;
+    }
+    #yui_3_17_2_1_1721049301493_435 {
+        font-size: 23px !important;
     }
 
 }
 
 @media all and (max-width: 576px) {
+    .logo a h1 {
+        letter-spacing: 0;
+    }
+
     .booking-page.booking-section {
         margin: 0;
     }
@@ -178,7 +251,7 @@
     }
 
     .container h1 {
-        font-size: 22px;
+        font-size: 25px;
         padding: 5px;
     }
 
@@ -196,15 +269,60 @@
     .booking-page .radio-item {
         margin-top: 1rem;
     }
+
     #custom-section .features {
         display: grid;
-        grid-template-columns: repeat(1, 1fr); /* Responsive grid */
+        grid-template-columns: repeat(1, 1fr);
+        /* Responsive grid */
     }
 
+    #yui_3_17_2_1_1721029560499_470 {
+        font-weight: 400;
+        font-size: 32px;
+        line-height: 1.2;
+    }
+
+    .review-container {
+        grid-template-columns: repeat(1, auto);
+    }
+
+    #discount-code {
+        padding: 10px 26px;
+        margin-right: 9px;
+    }
+    .services-section {
+        margin: 50px 20px;
+    }
+    .footer-columns {
+        flex-direction: column;
+    }
+    .footer-column {
+        margin-bottom: 30px;
+    }
+    #custom-section .feature-item .feature-icon {
+        transform: translateY(-15px);
+        margin-left: 0;
+        margin: auto;
+    }
 }
 
 @media all and (max-width: 400px) {
     .booking-page .extras-group {
         grid-template-columns: repeat(1, 1fr) !important;
+    }
+
+    .booking-page .extras-group {
+        grid-template-columns: repeat(1, 1fr) !important;
+    }
+
+    .discount-code-container {
+        display: flr;
+        display: flex;
+        flex-direction: column;
+        width: 90%;
+    }
+    #discount-code {
+        padding: 10px 26px;
+        margin-right: 0;
     }
 }

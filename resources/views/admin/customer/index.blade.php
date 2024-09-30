@@ -9,12 +9,8 @@ Customer
             <div class="col-lg-12 grid-margin stretch-card m-auto">
                 <div class="card">
                     <div class="card-body">
-                        <h4 class="card-title">All Customer List</h4>
+                        <h4 class="card-title">All Booking List</h4>
                         <!-- Trigger Button -->
-                        <button type="button" class="btn btn-primary" data-bs-toggle="modal"
-                            data-bs-target="#editModal">
-                            Edit Brand Category
-                        </button>
                         <div class="table-responsive">
                             <table class="table">
                                 <thead>
@@ -24,6 +20,7 @@ Customer
                                         <th>Email</th>
                                         <th>Phone Number</th>
                                         <th>Address</th>
+                                        <th>Booking Freequency</th>
                                         <th>Day</th>
                                         <th>Time</th>
                                         <th>Status</th>
@@ -41,6 +38,7 @@ Customer
                                         <td>{{ $item->phone }}</td>
                                         <td>{{ ($item->street ?? '') . ', ' . ($item->apt ?? '') . ', ' . ($item->city
                                             ?? '') }}</td>
+                                        <td>{{ $item->frequency }}</td>
                                         <td>{{ $item->day }}</td>
                                         <td>{{ $item->time }}</td>
                                         <td>

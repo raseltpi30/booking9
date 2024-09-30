@@ -86,6 +86,7 @@ $(document).ready(function () {
     let discountCode = '';
     let discountAmount = 0;
 
+
     const calculateTotal = () => {
         let total = 0;
         let extrasTotal = 0;
@@ -170,58 +171,58 @@ $(document).ready(function () {
         //     $('#discount-amount').text('');
         // }
 
-        // $('.apply-discount-button').on('click', function () {
-        //     const discountCode = $('#discount-code').val();  // Get the coupon code entered by the use
-        //     // Coupon Discount Calculation
+       $('.apply-discount-button').on('click', function () {
+            const discountCode = $('#discount-code').val();  // Get the coupon code entered by the use
+            // Coupon Discount Calculation
 
-        //     if (discountCode === '') {
-        //         // Show error if the coupon code is empty
-        //         $('#discount-code-error').text('Please enter a valid coupon code.');
-        //         return;  // Stop further execution
-        //     } else {
-        //         // $('#discount-code-error').hide();
-        //         $.ajax({
-        //             url: '/check-coupon',  // URL to the Laravel route for applying the coupon
-        //             type: 'POST',
-        //             data: {
-        //                 couponCode: discountCode,  // Send the entered coupon code
-        //                 _token: $('meta[name="csrf-token"]').attr('content')  // CSRF token for security
-        //             },
-        //             success: function (data) {
-        //                 let discountAmount = 0;  // Initialize discount amount
-        //                 if (data.success) {
-        //                     $('#discount-code-error').hide();
-        //                     // If the coupon code is valid, apply the discount
-        //                     discountAmount = total * (data.discount_percent / 100);  // Calculate discount
-        //                     $('#discount-amount').text(`Discount (${data.discount_percent}%): -$${discountAmount.toFixed(2)}`);  // Show discount
-        //                     $('#total-price-3').val(discountAmount.toFixed(2));  // Set the discount amount input value
-        //                     // console.log(discountAmount);
+            if (discountCode === '') {
+                // Show error if the coupon code is empty
+                $('#discount-code-error').text('Cpupon Code is Required!.');
+                return;  // Stop further execution
+            } else {
+                // $('#discount-code-error').hide();
+                $.ajax({
+                    url: '/check-coupon',  // URL to the Laravel route for applying the coupon
+                    type: 'POST',
+                    data: {
+                        couponCode: discountCode,  // Send the entered coupon code
+                        _token: $('meta[name="csrf-token"]').attr('content')  // CSRF token for security
+                    },
+                    success: function (data) {
+                        let discountAmount = 0;  // Initialize discount amount
+                        if (data.success) {
+                            $('#discount-code-error').hide();
+                            // If the coupon code is valid, apply the discount
+                            discountAmount = total * (data.discount_percent / 100);  // Calculate discount
+                            $('#discount-amount').text(`Discount (${data.discount_percent}%): -$${discountAmount.toFixed(2)}`);  // Show discount
+                            $('#total-price-3').val(discountAmount.toFixed(2));  // Set the discount amount input value
+                            // console.log(discountAmount);
 
-        //                     // console.log(data.message);
-        //                     // $('#discount-code').val(''); for hid this value of discout code
-        //                     const successMessage = `${data.message} Discount amount: <span style="color: black;">-$${discountAmount.toFixed(2)}</span>.`;
-        //                     $('#discount-code-success').html(successMessage);
-        //                     $('.apply-discount-button').prop('disabled', true);
-        //                     $('#discount-code').prop('disabled', true);
-        //                 }
-        //                 else {
-        //                     // If the coupon is invalid, clear the discount display
-        //                     $('#discount-amount').text('');
-        //                     $('#discount-code-error').text(data.message);
-        //                 }
+                            // console.log(data.message);
+                            // $('#discount-code').val(''); for hid this value of discout code
+                            const successMessage = `${data.message} Discount amount: <span style="color: black;">-$${discountAmount.toFixed(2)}</span>.`;
+                            $('#discount-code-success').html(successMessage);
+                            $('.apply-discount-button').prop('disabled', true);
+                            $('#discount-code').prop('disabled', true);
+                        }
+                        else {
+                            // If the coupon is invalid, clear the discount display
+                            $('#discount-amount').text('');
+                            $('#discount-code-error').text(data.message);
+                        }
 
-        //                 // Subtract coupon discount from total
-        //                 total -= discountAmount;
-        //                 $('#total').text(`$${total.toFixed(2)}`);  // Show the final total after discounts
-        //                 $('#total-price-input').val(total.toFixed(2));  // Set the final total in hidden input
-        //             },
-        //             error: function (error) {
-        //                 console.error('Error:', error);
-        //             }
-        //         });
-        //     }
+                        // Subtract coupon discount from total
+                        total -= discountAmount;
+                        $('#total').text(`$${total.toFixed(2)}`);  // Show the final total after discounts
+                        $('#total-price-input').val(total.toFixed(2));  // Set the final total in hidden input
+                    },
+                    error: function (error) {
+                        console.error('Error:', error);
+                    }
+                });
+            }
 
-        // });
+        });
 
         total -= discountAmount;
         $('#total').text(`$${total.toFixed(2)}`);
@@ -229,9 +230,7 @@ $(document).ready(function () {
         // console.log('Final total after all discounts:', total);
 
         // Store the extras object globally or in an appropriate scope
-        // window.extrasObject = extrasObject;
-
-        return total;
+        window.extrasObject = extrasObject;
     };
 
     $.ajaxSetup({
@@ -239,12 +238,6 @@ $(document).ready(function () {
             'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content'),
         }
     });
-
-
-    
-    // Attach the function to the button click event
-    // $('.apply-discount-button').on('click', applyDiscountCode);
-    
 
     const resetAllAddOns = () => {
         $('.extra-item').removeClass('highlighted always-visible').css('pointer-events', 'auto').find('.counter').text('');
@@ -266,7 +259,7 @@ $(document).ready(function () {
             } else if (typeOfService === "End of Lease Cleaning" && freeAddOns["End of Lease Cleaning"].includes(label)) {
                 $extra.addClass('highlighted').css('pointer-events', 'none');
             } else if (typeOfService === "Organisation by the Hour") {
-                if (label === "Organisation By the Hour $80/2 hours") {
+                if (label == "Organisation By the Hour $80/2 hours") {
                     $extra.addClass('highlighted always-visible');
                     $counter.text('1');
                     $increaseButton.show();
@@ -283,6 +276,24 @@ $(document).ready(function () {
                     $extra.addClass('highlighted').css('pointer-events', 'none');
                 }
             }
+            // } else if (typeOfService === "Organisation by the Hour") {
+            //     if (label == "Organisation By the Hour $80/2 hours") {
+            //         $extra.addClass('highlighted always-visible');
+            //         $counter.text('1');
+            //         $increaseButton.show();
+            //         $decreaseButton.show().css('pointer-events', 'none');
+
+            //         if (!$('#select-hours-note').length) {
+            //             $('<div>', {
+            //                 id: 'select-hours-note',
+            //                 text: 'Please Select Hours',
+            //                 css: { color: 'red' }
+            //             }).appendTo($extra);
+            //         }
+            //     } else if (freeAddOns["Organisation by the Hour"].includes(label)) {
+            //         $extra.addClass('highlighted').css('pointer-events', 'none');
+            //     }
+            // }
         });
 
         calculateTotal();
@@ -332,7 +343,7 @@ $(document).ready(function () {
         });
 
         $('#type-of-service').change(handleTypeOfServiceChange);
-        $('.apply-discount-button').click(applyDiscountCode);
+        // $('.apply-discount-button').click(applyDiscountCode);
     };
 
     setupEventListeners();
@@ -533,25 +544,26 @@ $(document).ready(function () {
                     };
 
                     console.log(bookingData);
-                    // $.ajax({
-                    //     url: '/booking/store',
-                    //     method: 'POST',
-                    //     data: bookingData,
-                    //     success: function (response) {
-                    //         console.log('Booking successful:', response);
-                    //         $('#payment-form')[0].reset();
-                    //         card.clear();
-                    //         setTimeout(() => {
-                    //             $('.loader').hide();
-                    //             alert('booking Success!');
-                    //             // window.location.href = '/';
-                    //         }, 500);
-                    //     },
-                    //     error: function (xhr) {
-                    //         console.error('Booking failed:', xhr.responseText);
-                    //         alert('An error occurred while completing the booking.');
-                    //     }
-                    // });
+                    $.ajax({
+                        url: '/booking/store',
+                        method: 'POST',
+                        data: bookingData,
+                        success: function (response) {
+                            console.log('Booking successful:', response);
+                            $('#payment-form')[0].reset();
+                            card.clear();
+                            setTimeout(() => {
+                                $('.loader').hide();
+                                toastr.success('booking success!');
+                                // window.location.href = '/';
+                            }, 500);
+                        },
+                        error: function (xhr) {
+                            $('.loader').hide();
+                            // console.error('Booking failed:', xhr.responseText);
+                            toastr.error('Booking failed because email already exists.');
+                        }
+                    });
                 }
             });
             // Prepare the data to be sent to the server

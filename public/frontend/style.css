@@ -334,8 +334,8 @@
     background-size: cover;
     background-position: center;
     background-repeat: no-repeat;
-    width: 100vw;
-    min-height: 100vh;
+    width: 100%;
+    min-height: 100%;
     margin: 0;
     padding: 0;
     overflow: hidden;
@@ -380,7 +380,6 @@
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    text-align: center;
     color: white !important;
 }
 
@@ -422,15 +421,15 @@
     padding: 20px;
     width: 250px;
     box-sizing: border-box;
-    text-align: center;
 }
 
 /* Feature icons */
 #custom-section .feature-icon {
-    display: block;
-    margin: 0 auto 20px auto;
-    width: 70px !important;
-    height: 70px !important;
+	display: block;
+	width: 70px !important;
+	height: 70px !important;
+	margin-left: 49px;
+	margin-bottom: 20px;
 }
 
 /* Remove default padding and margins */
@@ -459,7 +458,8 @@
     }
 
     #custom-section .feature-item .feature-icon {
-        transform: translateY(-15px)
+        transform: translateY(-15px);
+        margin-left: 75px;
     }
 
     #custom-section:before {
@@ -480,7 +480,6 @@
         margin: 0 auto;
         padding: 15px;
         box-sizing: border-box;
-        text-align: center;
         transform: translateX(-10px);
         /* Shift content slightly to the left */
         position: relative;
@@ -513,7 +512,6 @@
     #custom-section .feature-item {
         width: 100%;
         padding: 15px;
-        text-align: center;
         position: relative;
         z-index: 2;
     }
@@ -707,10 +705,12 @@
 
 /* Faq css  */
 .faq-container {
+    margin: 70px auto;
     max-width: 1200px;
     padding: 20px;
+    background-color: white;
     border-radius: 15px;
-    margin: 70px auto;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
 }
 
 h2,
@@ -785,12 +785,14 @@ p {
 }
 
 .faq-container h2 {
+    margin-top: 30px;
     text-align: center;
 }
 
-.faq-container p {
+.faq-container > p {
     color: #666;
     text-align: center;
+    margin-top: 20px;
     margin-bottom: 50px;
 }
 
@@ -825,30 +827,29 @@ p {
     .faq-row {
         flex-direction: column;
         align-items: flex-start;
-        width: 110%;
+        width: 100%;
     }
 
     .faq-category {
-        width: 140%;
+        width: 100%;
         margin-bottom: 0px !important;
     }
 
     .faq-category h4 {
-        width: 140%;
+        width: 100%;
         padding-left: 0;
     }
 
     .faq-item,
     .question,
     .answer {
-        width: 140%;
-        padding-left: 0;
+        width: 100%;
     }
 
     .answer p,
     .answer ul,
     .answer li {
-        width: 140%;
+        width: 100%;
     }
 
     .answer ul {
@@ -863,6 +864,7 @@ body {
     padding: 0;
     background-color: #fff;
     color: #333;
+    font-family: Arial, sans-serif;
 }
 
 .header-section {
@@ -1006,6 +1008,7 @@ body {
 /* General styles */
 body {
     line-height: 1.6;
+    font-family: Arial, sans-serif;
     font-family: Arial, sans-serif;
 }
 
@@ -1286,14 +1289,12 @@ body {
 }
 
 /* Footer Styles */
-footer,
-.footer {
-    background-color: var(--footer-bg-color) !important;
-    color: var(--footer-text-color) !important;
-    padding: 20px;
+footer, .footer {
+	background-color: var(--footer-bg-color) !important;
+	color: var(--footer-text-color) !important;
+	padding: 70px 50px;
 }
-
-.footer-grid {
+.footer-area {
     display: flex;
     justify-content: space-between;
     align-items: flex-start;
@@ -1389,6 +1390,108 @@ a:hover {
     padding: 5px 10px;
 }
 
+/* for inline footer  */
+
+.footer-left {
+    width: 30%;
+}
+
+.footer-left h1 {
+    font-size: 28px;
+    color: #2C2C2C;
+}
+
+.footer-columns {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 20px;
+}
+
+.footer-column h4 {
+    font-size: 16px;
+    color: #2C2C2C;
+    margin-bottom: 10px;
+    font-weight: bold;
+}
+
+.footer-column ul {
+    list-style-type: none;
+    padding: 0;
+}
+
+.footer-column ul li {
+    margin-bottom: 8px;
+}
+
+.footer-column ul li a {
+    text-decoration: none;
+    color: #2C2C2C;
+}
+
+.footer-column ul li a:hover {
+    text-decoration: underline;
+}
+
+.footer-right {
+    width: 30%;
+}
+
+.footer-right h4 {
+    font-size: 18px;
+    font-weight: bold;
+    color: #2C2C2C;
+}
+
+.subscribe-form {
+    display: flex;
+    align-items: center;
+    margin-top: 10px;
+}
+
+.subscribe-form input[type="email"] {
+    padding: 10px;
+    font-size: 14px;
+    border: 1px solid #2C2C2C;
+    border-radius: 4px;
+    outline: none;
+    width: 200px;
+}
+
+.subscribe-form button {
+    padding: 10px 20px;
+    font-size: 14px;
+    background-color: transparent;
+    border: 1px solid #2C2C2C;
+    cursor: pointer;
+    margin-left: 10px;
+    border-radius: 4px;
+}
+
+.subscribe-form button:hover {
+    background-color: #2C2C2C;
+    color: white;
+}
+
+.footer-contact {
+    margin-top: 20px;
+}
+
+.footer-contact p {
+    margin: 5px 0;
+    color: #2C2C2C;
+    font-size: 14px;
+}
+
+.copyright-bottom {
+    text-align: center;
+    font-size: 14px;
+    color: #2C2C2C;
+    background-color: #D8E1DE;
+    padding: 10px 0;
+    font-weight: 700;
+}
+
+/* for footer css end  */
 /*******************************************/
 /**************** for logo ****************/
 /*****************************************/
@@ -1506,6 +1609,7 @@ body {
     margin-bottom: 20px;
     color: black !important;
     /* Setting text color to black */
+    font-weight: 400;
 }
 
 .steps-container {
@@ -1562,7 +1666,8 @@ body {
     margin-top: 10px;
     /* Ensure consistent spacing */
     font-weight: bold;
-    color: var(--text-color);
+    color: #000;
+    margin-bottom: 20px;
 }
 
 .step p {
@@ -1585,10 +1690,12 @@ body {
     cursor: pointer;
     font-size: 1.2em;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    color: #000;
 }
 
 .book-now-button:hover {
     background-color: var(--button-hover-bg-color);
+    color: #fff;
 }
 
 .separator {
@@ -1736,4 +1843,165 @@ body {
     color: red;
     font-size: 0.875em;
     margin-top: 0.25em;
+}
+
+/* for testimonil css  */
+.testimonial-area {
+	background-color: var(--footer-bg-color) !important;
+	padding: 70px 0;
+}
+.review-container {
+    display: grid;
+    /* grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); */
+    grid-template-columns: repeat(3, auto);
+    gap: 15px;
+    padding: 20px;
+    justify-items: center;
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+.review-card {
+    background-color: white;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    padding: 20px;
+    width: 100%;
+    transition: transform 0.3s;
+}
+
+.review-card:hover {
+    transform: translateY(-5px);
+}
+
+.author-name {
+    font-size: 16px;
+    font-weight: bold;
+    color: #374d43;
+}
+
+.review-date {
+    font-size: 12px;
+    color: #666;
+    margin-top: 5px;
+}
+
+.review-text {
+    font-size: 14px;
+    color: #555;
+    margin-top: 10px;
+}
+
+.rating {
+    font-size: 14px;
+    margin-top: 10px;
+}
+
+.stars {
+    color: #ffb200;
+    font-size: 14px;
+    margin-right: 20px;
+}
+
+.avatar {
+    display: -webkit-box;
+    display: -webkit-flex;
+    display: -ms-flexbox;
+    display: flex;
+    width: 35px;
+    height: 35px;
+    margin: 0px 10px 0px 0px;
+    padding: 2px 0px 0px;
+    float: left;
+    justify-content: center;
+    align-items: center;
+    flex: 0 0 auto;
+    border-radius: 80px;
+    background-color: #F5F9FF;
+    font-family: Roboto, sans-serif;
+    color: #1874FD;
+    font-size: 12px;
+    font-weight: 500;
+}
+
+.author-name {
+    margin: 0px;
+    padding: 0px;
+    color: #32363D;
+    font-size: 16px;
+    line-height: 16px;
+    font-weight: 700;
+}
+
+.review-date {
+    margin: 4px 0px 0px;
+    padding: 0px;
+    color: #828B98;
+    font-size: 12px;
+    line-height: 12px;
+    font-weight: 200;
+}
+
+.review-text {
+    width: auto;
+    padding: 10px 0px 0px;
+    color: #32363D;
+    font-size: 16px;
+    line-height: 24px;
+    font-weight: 400;
+    cursor: text;
+}
+
+.share-btn {
+    padding: 0px 5px;
+    color: #CACED4;
+    font-size: 18px;
+    cursor: pointer;
+    font-weight: 400;
+    float: right;
+}
+
+.rating {
+    display: flex;
+    align-items: center;
+    margin-top: 20px;
+}
+
+.google-icon i {
+    color: #dd4b39;
+}
+
+.more-btn {
+    background-color: transparent;
+    color: #007bff;
+    border: none;
+    cursor: pointer;
+    text-decoration: underline;
+    font-size: 14px;
+}
+
+.review-text {
+    margin-bottom: 10px;
+}
+
+/* fixing  erikliang */
+#card-element {
+	border: 1px solid #E5E9EF;
+	box-sizing: border-box;
+	font-size: 14px;
+	line-height: 44px;
+	padding: 10px 15px;
+    border-radius: 5px;
+}
+.container h2 {
+	font-weight: 400;
+}
+.testimonial-title{
+    text-align: center;
+}
+.testimonial-title h1 {
+	color: #1c1c1c;
+	font-size: 45px;
+    font-weight: 400;
+    margin-bottom: 20px;
 }

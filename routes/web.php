@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\Admin\CustomerController;
 use App\Http\Controllers\Admin\AdminCouponController;
+use App\Http\Controllers\Admin\AdminController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\CouponController;
 use App\Http\Controllers\Auth\LoginController;
@@ -10,6 +11,7 @@ use App\Http\Controllers\Auth\ForgotPasswordController;
 use App\Http\Controllers\Auth\ResetPasswordController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\ContactController;
+use App\Http\Controllers\PlaceController;
 
 /*
 |--------------------------------------------------------------------------
@@ -33,10 +35,12 @@ Route::group(['namespace' => 'App\Http\Controllers\frontend'], function () {
     Route::get('/success', 'BookingController@success')->name('payment.success');
     Route::get('/cancel', 'BookingController@cancel')->name('payment.cancel');
     Route::get('/payment-canceled', 'BookingController@paymentCanceled')->name('payment.canceled');
+    Route::get('/check-email/{email}', 'BookingController@checkEmail');
     // Route::get('/cancel', 'BookingController@cancel')->name('payment.succe');
 });
 
 Route::post('/check-coupon', [CouponController::class, 'checkCoupon']);
+Route::post('/custom-coupon', [CouponController::class, 'customCoupon'])->name('custom.coupon');
 Route::post('/contact', [ContactController::class, 'store'])->name('contact.store');
 // Route::post('/remove-coupon', [CouponController::class, 'removeCoupon']);
 
@@ -50,16 +54,18 @@ Route::post('/password/email', [ForgotPasswordController::class, 'sendResetLinkE
 Route::get('/password/reset/{token}', [ResetPasswordController::class, 'showResetForm'])->name('password.reset');
 Route::post('/password/reset', [ResetPasswordController::class, 'reset'])->name('password.update');
 
-Route::get('/home',[HomeController::class, 'adminHome'])->middleware('auth')->name('admin.home');
-
-
 Route::group(['namespace' => 'App\Http\Controllers\Admin','prefix' => 'admin','middleware' => 'auth'], function () {
     Route::get('/home',[HomeController::class, 'adminHome'])->name('admin.home');
     Route::get('/customers',[CustomerController::class, 'index'])->name('customer');
     Route::get('/customer/details/{id}',[CustomerController::class, 'customerDetails'])->name('customer.details');
     Route::get('/customer/edit/{id}',[CustomerController::class, 'edit'])->name('customer.edit');
     Route::post('/customer/update/{id}',[CustomerController::class, 'update'])->name('customer.update');
-    Route::delete('/customer/delete/{id}',[CustomerController::class, 'destroy'])->name('customer.delete');
+    Route::get('/customer/delete/{id}',[CustomerController::class, 'destroy'])->name('customer.delete');
+    
+    // for password change 
+
+    Route::get('/password/change',[AdminController::class,'passwordChange'])->name('admin.password.change');
+    Route::post('/password/update',[AdminController::class,'passwordUpdate'])->name('admin.password.update');
 
     // Route for coupon 
 
@@ -74,5 +80,7 @@ Route::group(['namespace' => 'App\Http\Controllers\Admin','prefix' => 'admin','m
     Route::get('/contact/delete/{id}', [ContactController::class, 'destroy'])->name('contact.delete');
 });
 
+Route::get('/place-autocomplete', [PlaceController::class, 'autocomplete'])->name('place.autocomplete');
+Route::get('/place-details', [PlaceController::class, 'details'])->name('place.details');
 
 Auth::routes();

@@ -25,5 +25,11 @@
                 <span class="menu-title">Report</span>
             </a>
         </li>
+        <li class="nav-item">
+            <a class="nav-link" href="{{route('admin.password.change')}}">
+                <i class="menu-icon mdi mdi-lock"></i>
+                <span class="menu-title">Password Change</span>
+            </a>
+        </li>
     </ul>
 </nav>

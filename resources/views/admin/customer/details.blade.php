@@ -82,7 +82,7 @@ Customer
                                                 @foreach ($serviceData as $service => $details)
                                                 <tr>
                                                     <td>{{ $service }}</td>
-                                                    <td>${{ $details['price'] }}</td>
+                                                    <td>{{ $details['price'] ?? '0' }}</td>
                                                 </tr>
                                                 @endforeach
                                             </tbody>

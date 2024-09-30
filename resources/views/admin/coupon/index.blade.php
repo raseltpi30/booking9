@@ -14,7 +14,7 @@ Customer
                             <!-- Trigger Button -->
                             <button style="margin-right:50px" type="button" class="btn btn-info" data-bs-toggle="modal"
                                 data-bs-target="#addModal">
-                                Add New Coupon
+                                <i class="fa fa-plus"></i>Add New Coupon
                             </button>
                         </div>
                         <div class="table-responsive">
@@ -74,7 +74,7 @@ Customer
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title" id="exampleModalLabel">Add New Brand</h5>
+                <h5 class="modal-title" id="exampleModalLabel">Add New Coupon</h5>
                 <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                 </button>
@@ -118,7 +118,7 @@ Customer
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title" id="exampleModalLabel">Edit Customer Cleaning Status</h5>
+                <h5 class="modal-title" id="exampleModalLabel">Edit Coupon Here</h5>
                 <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                 </button>

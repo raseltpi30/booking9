@@ -54,28 +54,30 @@ Dashboard
             <div class="row mt-4 last">
                 <div class="col-lg-12">
                     <h3 class="mb-4">Recent Bookings</h3>
-                    <table class="table table-striped table-bordered">
-                        <thead class="thead-dark">
-                            <tr>
-                                <th>Customer Name</th>
-                                <th>Email</th>
-                                <th>Service</th>
-                                <th>Date</th>
-                                <th>Total</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            @foreach ($bookings as $booking)
-                            <tr>
-                                <td>{{ $booking->firstName }} {{ $booking->lastName }}</td>
-                                <td>{{ $booking->email }}</td>
-                                <td>{{ $booking->service }}</td>
-                                <td>{{ $booking->day }}</td>
-                                <td>${{ number_format($booking->finalTotal, 2) }}</td>
-                            </tr>
-                            @endforeach
-                        </tbody>
-                    </table>
+                    <div class="table-responsive">
+                        <table class="table table-striped table-bordered">
+                            <thead class="thead-dark">
+                                <tr>
+                                    <th>Customer Name</th>
+                                    <th>Email</th>
+                                    <th>Service</th>
+                                    <th>Date</th>
+                                    <th>Total</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach ($bookings as $booking)
+                                <tr>
+                                    <td>{{ $booking->firstName }} {{ $booking->lastName }}</td>
+                                    <td>{{ $booking->email }}</td>
+                                    <td>{{ $booking->service }}</td>
+                                    <td>{{ $booking->day }}</td>
+                                    <td>${{ number_format($booking->finalTotal, 2) }}</td>
+                                </tr>
+                                @endforeach
+                            </tbody>
+                        </table>
+                    </div>
                 </div>
             </div>
 

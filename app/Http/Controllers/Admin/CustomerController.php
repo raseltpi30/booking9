@@ -29,13 +29,13 @@ class CustomerController extends Controller
     {
         $booking = DB::table('bookings')->where('id', $id)->first();
         DB::table('bookings')->where('id', $id)->update(['status' => $request->status]);
-        $notification = array('message' => 'Customer Updated Successfully!', 'alert-type' => 'success');
+        $notification = array('message' => 'Booking Status Updated Successfully!', 'alert-type' => 'success');
         return redirect()->back()->with($notification);
     }
     public function destroy($id)
     {
         DB::table('bookings')->where('id', $id)->delete();
-        $notification = array('message' => 'Customer Deleted Successfully!', 'alert-type' => 'success');
+        $notification = array('message' => 'Booking Deleted Successfully!', 'alert-type' => 'success');
         return redirect()->back()->with($notification);
     }
 }

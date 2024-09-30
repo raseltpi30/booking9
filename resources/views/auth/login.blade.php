@@ -1,6 +1,6 @@
 @extends('layouts.login')
 @section('title')
-    Admin Login
+Admin Login
 @endsection
 @section('login_content')
 
@@ -23,8 +23,7 @@
                         <form action="{{ route('login') }}" class="pt-3" method="POST">
                             @csrf
                             <div class="form-group">
-                                <input type="text" class="form-control @error('email') is-invalid @enderror"
-                                    name="email" value="{{ old('email') }}" autocomplete="email" placeholder="Email">
+                                <input type="text" class="form-control @error('email') is-invalid @enderror" name="email" autocomplete="off" value="{{ old('email') }}" placeholder="Email">
                                 @error('email')
                                 <span class="invalid-feedback" role="alert">
                                     <strong>{{ $message }}</strong>
@@ -32,9 +31,7 @@
                                 @enderror
                             </div>
                             <div class="form-group">
-                                <input type="password" type="password"
-                                    class="form-control @error('password') is-invalid @enderror" name="password"
-                                    autocomplete="current-password" placeholder="Password">
+                                <input type="password" type="password" class="form-control @error('password') is-invalid @enderror" name="password" autocomplete="current-password" placeholder="Password">
                                 @error('password')
                                 <span class="invalid-feedback" role="alert">
                                     <strong>{{ $message }}</strong>
@@ -42,8 +39,7 @@
                                 @enderror
                             </div>
                             <div class="mt-3 d-grid gap-2">
-                                <button type="submit"
-                                    class="btn btn-block btn-primary btn-lg fw-medium auth-form-btn">SIGN IN</button>
+                                <button type="submit" class="btn btn-block btn-primary btn-lg fw-medium auth-form-btn">SIGN IN</button>
                             </div>
                             <div class="my-2 d-flex justify-content-between align-items-center">
                                 <div class="form-check">
@@ -52,13 +48,6 @@
                                 </div>
                                 <a href="{{ route('password.request') }}" class="auth-link text-black">Forgot
                                     password?</a>
-                            </div>
-                            {{-- <div class="mb-2 d-grid gap-2">
-                                <button type="button" class="btn btn-block btn-facebook auth-form-btn">
-                                    <i class="ti-facebook me-2"></i>Connect using facebook </button>
-                            </div> --}}
-                            <div class="text-center mt-4 fw-light"> Don't have an account? <a
-                                    href="{{ route('register') }}" class="text-primary">Create</a>
                             </div>
                         </form>
                     </div>
@@ -72,49 +61,3 @@
 <!-- container-scroller -->
 
 @endsection
-
-
-{{--
-<!DOCTYPE html>
-<html lang="en">
-
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Login</title>
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
-</head>
-
-<body>
-    <div class="container mt-5">
-        <h2>Login</h2>
-
-        @if ($errors->any())
-        <div class="alert alert-danger">
-            <ul>
-                @foreach ($errors->all() as $error)
-                <li>{{ $error }}</li>
-                @endforeach
-            </ul>
-        </div>
-        @endif
-
-        <form action="{{ route('login') }}" method="POST">
-            @csrf
-            <div class="form-group">
-                <label for="email">Email Address:</label>
-                <input type="email" id="email" name="email" class="form-control" required autofocus>
-            </div>
-            <div class="form-group">
-                <label for="password">Password:</label>
-                <input type="password" id="password" name="password" class="form-control" required>
-            </div>
-            <button type="submit" class="btn btn-primary">Login</button>
-        </form>
-
-        <p class="mt-3">Don't have an account? <a href="{{ route('register') }}">Register here</a></p>
-        <p class="mt-3"><a href="{{ route('password.request') }}">Forgot your password?</a></p> <!-- Add this line -->
-    </div>
-</body>
-
-</html> --}}
