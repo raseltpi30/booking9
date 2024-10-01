@@ -65,7 +65,6 @@ class BookingController extends Controller
                 // Stripe setup
                 // Stripe::setApiKey(env('STRIPE_SECRET')); // Use environment variable for API key
                 // Stripe::setApiKey('sk_test_51PylzqRq0gWoIKN4nEaYiVjis3ymX3apocMqP5s35ciPkBDv1uj1i83qR9S5uBqwz1KWiUVf1oQ1weDYiGxrsGs900E4qxL8h3');
-                Stripe::setApiKey('sk_test_51Pg0xxIpCrzhTk3nRAASulLvCNw1F6cry0qmQjejIx7XLUCb5UcD6IF3JlW32GuwTQYV6OqAbDzPxEIGWKKl9aGJ002aMwhWc2');
 
                 // Create a Stripe charge
                 $charge = Charge::create([
