@@ -341,7 +341,6 @@ $(document).ready(function () {
 
     // Initialize Stripe
     // var stripe = Stripe('pk_test_51PylzqRq0gWoIKN4CJpBWQP5AOiDUYAUZ8V4bsG2vKKRRWYO3j1eD90VYwpGhWstTlz3fJRDPifKUzvSJpIIWF4B00Wl8MLfdK'); // Replace with your Stripe public key
-    var stripe = Stripe('pk_test_51Pg0xxIpCrzhTk3noCRQZEZezn6SM20Ihj5XxT9edh6t13AdAdc8R2DYGnVm2eq9CBW8q5831OefWCwQsO97XLzs00cjIlsJPV'); // Replace with your Stripe public key
     var elements = stripe.elements();
     var style = {
         base: {
