@@ -22,4 +22,13 @@ class PagesController extends Controller
     public function quotes(){
         return view('pages.quotes');
     }
+    public function bookingThanks(){
+        return view('pages.thanks.booking');
+    }
+    public function contactThanks(){
+        return view('pages.thanks.contact');
+    }
+    public function subscribeThanks(){
+        return view('pages.thanks.subscribe');
+    }
 }

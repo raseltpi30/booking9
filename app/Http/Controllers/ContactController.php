@@ -13,7 +13,7 @@ class ContactController extends Controller
         // Validate and create a new contact
         $contact = Contact::create($request->only('name', 'email', 'subject', 'message'));
         $notification = array('message' => 'Your inquiry has been submitted.!', 'alert-type' => 'success');
-        return redirect()->back()->with($notification);
+        return redirect()->route('contact.thanks')->with($notification);
     }
 
     // Show contacts in admin panel

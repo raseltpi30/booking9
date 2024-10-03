@@ -26,11 +26,17 @@ use App\Http\Controllers\PlaceController;
 
 Route::group(['namespace' => 'App\Http\Controllers\frontend'], function () {
     Route::get('/', 'IndexController@index')->name('home');
+    Route::get('/check','IndexController@checkApiKey');
     Route::get('/book-now', 'PagesController@booking')->name('book-now');
     Route::get('/contact', 'PagesController@contact')->name('contact');
     Route::get('/services', 'PagesController@services')->name('services');
     Route::get('/faq', 'PagesController@faq')->name('faq');
     Route::get('/quotes', 'PagesController@quotes')->name('quotes');
+    Route::get('/thanks-booking', 'PagesController@bookingThanks')->name('booking.thanks');
+    Route::get('/thanks-contact', 'PagesController@contactThanks')->name('contact.thanks');
+    Route::get('/thanks-subscribe', 'PagesController@subscribeThanks')->name('subscribe.thanks');
+    Route::post('/subscribe', 'IndexController@subscribe')->name('subscribe');
+
     Route::post('/booking/store', 'BookingController@store')->name('booking.store');
     Route::get('/success', 'BookingController@success')->name('payment.success');
     Route::get('/cancel', 'BookingController@cancel')->name('payment.cancel');
@@ -61,13 +67,13 @@ Route::group(['namespace' => 'App\Http\Controllers\Admin','prefix' => 'admin','m
     Route::get('/customer/edit/{id}',[CustomerController::class, 'edit'])->name('customer.edit');
     Route::post('/customer/update/{id}',[CustomerController::class, 'update'])->name('customer.update');
     Route::get('/customer/delete/{id}',[CustomerController::class, 'destroy'])->name('customer.delete');
-    
-    // for password change 
+
+    // for password change
 
     Route::get('/password/change',[AdminController::class,'passwordChange'])->name('admin.password.change');
     Route::post('/password/update',[AdminController::class,'passwordUpdate'])->name('admin.password.update');
 
-    // Route for coupon 
+    // Route for coupon
 
     Route::get('/coupons',[AdminCouponController::class, 'index'])->name('coupon.index');
     Route::post('/coupon/store',[AdminCouponController::class, 'store'])->name('coupon.store');
@@ -75,7 +81,7 @@ Route::group(['namespace' => 'App\Http\Controllers\Admin','prefix' => 'admin','m
     Route::post('/coupon/update/{id}',[AdminCouponController::class, 'update'])->name('coupon.update');
     Route::get('/coupon/delete/{id}',[AdminCouponController::class, 'destroy'])->name('coupon.delete');
 
-    // for contact show 
+    // for contact show
     Route::get('/contact', [ContactController::class, 'index'])->name('contact.index');
     Route::get('/contact/delete/{id}', [ContactController::class, 'destroy'])->name('contact.delete');
 });

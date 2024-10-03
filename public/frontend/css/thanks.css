@@ -1,0 +1,51 @@
+.thank-you-header {
+    font-size: 38px !important;
+    /* Ensure font size is applied */
+}
+
+
+/* Custom CSS for Squarespace */
+.thank-you-container {
+    width: 80%;
+    /* Adjust the width as needed */
+    max-width: 600px;
+    /* Set a maximum width */
+    margin: 70px auto !important;
+    /* Center the container */
+    padding: 20px;
+    /* Add padding inside the box */
+    background-color: white;
+    /* Background color for the box */
+    border-radius: 15px;
+    /* Rounded corners */
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    /* Add a subtle shadow */
+    text-align: center;
+    /* Center-align text */
+}
+
+.thank-you-header {
+    font-size: 24px;
+    color: #333;
+    font-weight: bold;
+    text-align: center;
+    background-color: transparent;
+    /* Ensure no background color */
+    border: none;
+    /* Ensure no border */
+    box-shadow: none;
+    /* Ensure no shadow */
+    margin: 0;
+    /* Remove margin */
+}
+
+.thank-you-line {
+    border-bottom: 1px solid #C4C4C4;
+    margin: 20px 0;
+}
+
+.thank-you-content {
+    text-align: center;
+    font-size: 16px;
+    line-height: 1.6;
+}

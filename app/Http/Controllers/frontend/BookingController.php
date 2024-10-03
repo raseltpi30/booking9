@@ -11,27 +11,15 @@ use Stripe\StripeClient;
 use Illuminate\Support\Facades\Mail;
 use App\Mail\PaymentDetailsMail;
 use App\Models\Booking;
-use DrewM\MailChimp\MailChimp;
-use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Carbon;
 
 
 class BookingController extends Controller
 {
-    // for mail chimp 
-    private $apiKey = 'd73f9069359cdb0b1be89b97790a96d5-us10'; // Replace with your actual API key
-    private $audienceId = '4bebf538ef'; // Replace with your actual Audience ID
-    private $mailchimp;
-
-    public function __construct()
-    {
-        $this->mailchimp = new MailChimp($this->apiKey);
-    }
-    // for mail chimp up code 
-
     public function store(Request $request)
     {
         // return $request->all();
-        $existingBooking = DB::table('bookings')->where('email', $request->email)->first();
+        $existingBooking = DB::table('bookings')->where('email', $request->email)->where('couponDiscountCode',$request->couponDiscountCode)->first();
         if ($existingBooking) {
             return response()->json(['success' => false, 'error' => 'Booking failed because email already exists.'], 400);
         } else {
@@ -66,84 +54,40 @@ class BookingController extends Controller
                 // Stripe::setApiKey(env('STRIPE_SECRET')); // Use environment variable for API key
                 // Stripe::setApiKey('sk_test_51PylzqRq0gWoIKN4nEaYiVjis3ymX3apocMqP5s35ciPkBDv1uj1i83qR9S5uBqwz1KWiUVf1oQ1weDYiGxrsGs900E4qxL8h3');
 
-                // Create a Stripe charge
-                $charge = Charge::create([
-                    'amount' => $validatedData['finalTotal'] * 100, // Convert to cents
-                    'currency' => 'usd',
-                    'source' => $validatedData['stripeToken'],
-                    'description' => 'Payment for service',
-                    'metadata' => [
-                        'First Name' => $validatedData['firstName'],
-                        'Last Name' => $validatedData['lastName'],
-                        'Email' => $validatedData['email'],
-                        'phone' => $validatedData['phone'],
-                        'Street' => $validatedData['street'],
-                        'Apt' => $validatedData['apt'],
-                        'City' => $validatedData['city'],
-                        'Postal Code' => $validatedData['postalCode'],
-                        'Service' => $validatedData['service'],
-                        'Bathroom' => $validatedData['bathroom'],
-                        'Type Of Service' => $validatedData['typeOfService'],
-                        'Storey' => $validatedData['storey'],
-                        'Frequency' => $validatedData['frequency'],
-                        'Day' => $validatedData['day'],
-                        'Time' => $validatedData['time'],
-                        'Discount Percentage' => $validatedData['discountPercentage'] . '%' ?? null,
-                        'Discount Amount' => '$' . $validatedData['discountAmount'] ?? null,
-                        'Coupon Discount Amount' => isset($validatedData['couponDiscountAmount']) && $validatedData['couponDiscountAmount'] !== null
-                            ? '$' . number_format($validatedData['couponDiscountAmount'], 2)
-                            : null,
-                        'Total Extras' => '$' . $validatedData['totalExtras'] ?? null,
-                        'FinalTotal' => '$' . $validatedData['finalTotal']
-                    ]
-                ]);
+                // // // Create a Stripe charge
+                // $charge = Charge::create([
+                //     'amount' => $validatedData['finalTotal'] * 100, // Convert to cents
+                //     'currency' => 'aud',
+                //     'source' => $validatedData['stripeToken'],
+                //     'description' => 'Payment for service',
+                //     'metadata' => [
+                //         'First Name' => $validatedData['firstName'],
+                //         'Last Name' => $validatedData['lastName'],
+                //         'Email' => $validatedData['email'],
+                //         'phone' => $validatedData['phone'],
+                //         'Street' => $validatedData['street'],
+                //         'Apt' => $validatedData['apt'],
+                //         'City' => $validatedData['city'],
+                //         'Postal Code' => $validatedData['postalCode'],
+                //         'Service' => $validatedData['service'],
+                //         'Bathroom' => $validatedData['bathroom'],
+                //         'Type Of Service' => $validatedData['typeOfService'],
+                //         'Storey' => $validatedData['storey'],
+                //         'Frequency' => $validatedData['frequency'],
+                //         'Day' => $validatedData['day'],
+                //         'Time' => $validatedData['time'],
+                //         'Discount Percentage' => $validatedData['discountPercentage'] . '%' ?? null,
+                //         'Discount Amount' => '$' . $validatedData['discountAmount'] ?? null,
+                //         'Coupon Discount Amount' => isset($validatedData['couponDiscountAmount']) && $validatedData['couponDiscountAmount'] !== null
+                //             ? '$' . number_format($validatedData['couponDiscountAmount'], 2)
+                //             : null,
+                //         'Total Extras' => '$' . $validatedData['totalExtras'] ?? null,
+                //         'FinalTotal' => '$' . $validatedData['finalTotal']
+                //     ]
+                // ]);
 
-                // Send the email
+                // // Send the email
                 // Mail::to($validatedData['email'])->send(new PaymentDetailsMail($validatedData));
-
-
-                //for mailchimp
-
-                // $email = $request->email;
-                // $memberHash = $this->mailchimp->subscriberHash($email);
-                // $member = $this->mailchimp->get("lists/{$this->audienceId}/members/{$memberHash}");
-
-                // // If the email was previously unsubscribed, re-subscribe it
-                // if ($member && isset($member['status']) && $member['status'] === 'unsubscribed') {
-                //     $result = $this->mailchimp->put("lists/{$this->audienceId}/members/{$memberHash}", [
-                //         'status' => 'subscribed',
-                //         'merge_fields' => [
-                //             'FNAME' => $request->firstName,
-                //             // 'LNAME' => $request->lastName,
-                //             // 'ADDRESS' => $request->street.','.$request->apt.','.$request->city,
-                //             // 'PHONE' => $request->phone,
-                //             // 'PCODE' => $request->postalCode,
-                //             // 'FREQUENCY' => $request->frequency.' '.$request->discountPercentage.'%',
-                //             // 'FAMOUNT' => $request->discountAmount,
-                //             // 'CAMOUNT' => $request->couponDiscountAmount ?? null,
-                //             // 'TTOTAL' => $request->totalExtras,
-                //             // 'FTOTAL' => $request->finalTotal,
-                //         ],
-                //     ]);
-                // } else {
-                //     // If the email is new, add it
-                //     $result = $this->mailchimp->post("lists/{$this->audienceId}/members", [
-                //         'email_address' => $email,
-                //         'status' => 'subscribed',
-                //         'merge_fields' => [
-                //             'FNAME' => $request->firstName . ' ' . $request->lastName,
-                //             'ADDRESS' => $request->street.', '.$request->apt.', '.$request->city,
-                //             'PHONE' => $request->phone,
-                //             'PCODE' => $request->postalCode,
-                //             'FREQUENCY' => $request->frequency . ' ' . $request->discountPercentage . '%',
-                //             'FAMOUNT' => $request->discountAmount,
-                //             'CAMOUNT' => $request->couponDiscountAmount ?? 0,
-                //             'TTOTAL' => $request->totalExtras ?? 0,
-                //             'FTOTAL' => $request->finalTotal,
-                //         ],
-                //     ]);
-                // }
-                // mailchimp code end
 
                 // Insert data into the database
                 $bookingId = DB::table('bookings')->insertGetId([
@@ -164,6 +108,7 @@ class BookingController extends Controller
                     'time' => $validatedData['time'],
                     'discountPercentage' => $validatedData['discountPercentage'] ?? 0,
                     'discountAmount' => $validatedData['discountAmount'] ?? 0,
+                    'couponDiscountCode' => $request->couponDiscountCode ?? 0,
                     'couponDiscountAmount' => $validatedData['couponDiscountAmount'] ?? 0,
                     'extras' => json_encode($validatedData['extras'] ?? []),
                     'totalExtras' => $validatedData['totalExtras'] ?? 0,
@@ -173,7 +118,7 @@ class BookingController extends Controller
                     'updated_at' => now(),
                 ]);
 
-                return response()->json(['success' => true, 'charge' => $charge]);
+                return response()->json(['success' => true, 'charge' => 'success']);
             } catch (\Exception $e) {
                 return response()->json(['success' => false, 'error' => $e->getMessage()], 500);
             }

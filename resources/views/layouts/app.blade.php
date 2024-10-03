@@ -6,6 +6,8 @@
     <meta name="csrf-token" content="{{ csrf_token() }}">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title> @yield('title') || Crystal Clean Sydney</title>
+    <meta name="description" content="Discover comprehensive residential and commercial cleaning services in Sydney with Crystal Clean. Our experienced team delivers exceptional cleanliness and reliability. Book online instantly!">
+    <meta name="keywords" content="residential cleaning Sydney, commercial cleaning Sydney, professional cleaning services, house cleaning Sydney, office cleaning Sydney, Crystal Clean Sydney">
     <link rel="shortcut icon" href="{{asset('frontend/images/favicon.png')}}" type="image/x-icon">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@200;300;400;500&display=swap" rel="stylesheet">
@@ -13,6 +15,7 @@
     <link rel="stylesheet" href="{{ asset('frontend') }}/styles.css">
     <link rel="stylesheet" href="{{ asset('frontend') }}/css/services.css">
     <link rel="stylesheet" href="{{ asset('frontend') }}/booking.css">
+    <link rel="stylesheet" href="{{ asset('frontend') }}/css/thanks.css">
     <link rel="stylesheet" href="{{ asset('frontend') }}/responsive.css">
     {{-- for toastar --}}
     <link rel="stylesheet" type="text/css" href="{{ asset('backend/plugins/toastr/toastr.css') }}">

@@ -1,6 +1,7 @@
 $(document).ready(function () {
     console.log('DOM fully loaded and parsed');
     $('#total-price-3').val(''); // for refresh page coupon when i refresh page coupon input will 0.
+    $('#discount-code').val(''); // for refresh page coupon when i refresh page coupon input will 0.
 
     // Extract query parameters
     const urlParams = new URLSearchParams(window.location.search);
@@ -204,6 +205,7 @@ $(document).ready(function () {
                             $('#discount-code-success').html(successMessage);
                             $('.apply-discount-button').prop('disabled', true);
                             $('#discount-code').prop('disabled', true);
+                            $('.extra-item').addClass('disabled');
                         }
                         else {
                             // If the coupon is invalid, clear the discount display
@@ -341,6 +343,7 @@ $(document).ready(function () {
 
     // Initialize Stripe
     // var stripe = Stripe('pk_test_51PylzqRq0gWoIKN4CJpBWQP5AOiDUYAUZ8V4bsG2vKKRRWYO3j1eD90VYwpGhWstTlz3fJRDPifKUzvSJpIIWF4B00Wl8MLfdK'); // Replace with your Stripe public key
+    var stripe = Stripe('pk_test_51PylzqRq0gWoIKN4CJpBWQP5AOiDUYAUZ8V4bsG2vKKRRWYO3j1eD90VYwpGhWstTlz3fJRDPifKUzvSJpIIWF4B00Wl8MLfdK'); // Replace with your Stripe public key
     var elements = stripe.elements();
     var style = {
         base: {
@@ -461,12 +464,14 @@ $(document).ready(function () {
     });
 
 
-    // end orga 
+    // end orga
 
     $('#complete-booking-button').click(function (event) {
         event.preventDefault(); // Prevent the default form submission
 
         // Initial log for count
+        let couponDiscountCode = $('#discount-code').val();
+        console.log(couponDiscountCode);
         console.log('final', count);
         // Clear previous error messages
         $('.error-message').text('');
@@ -495,7 +500,6 @@ $(document).ready(function () {
         if (allFieldsValid) {
             $('.loader').show();
             // Recalculate the total to ensure it's up to date
-            calculateTotal();
             // Calculate the total extras amount
 
             $('.card-error-new').hide();
@@ -560,7 +564,8 @@ $(document).ready(function () {
                             discountPercentage: discountPercentage * 100, // Convert to percentage
                             ...(discountAmount ? { discountAmount: discountAmount } : {}), // Include discount amount
                             ...(couponDiscountAmount ? { couponDiscountAmount: couponDiscountAmount } : {}), // Include discount amount
-                            extras : window.extrasObject = {
+                            ...(couponDiscountCode ? { couponDiscountCode: couponDiscountCode } : {}),
+                            extras: window.extrasObject = {
                                 "Organisation By the Hour": { "price": count }, // Ensure 'count' is defined
                                 "Oven Cleaning": { "price": 0 },
                                 "Refrigerator Cleaning Empty": { "price": 0 },
@@ -578,7 +583,7 @@ $(document).ready(function () {
                                 "Shed/Pool House": { "price": 0 },
                                 "I Have Pets": { "price": 0 },
                                 "This is a hourly service show extra Price": { "price": 0 },
-                            },  
+                            },
                             totalExtras: extrasTotal2, // Include total extras in the data
                             finalTotal: finalTotal,
                             stripeToken: result.token.id // Include the Stripe token
@@ -590,19 +595,41 @@ $(document).ready(function () {
                             data: bookingData,
                             success: function (response) {
                                 console.log('Booking successful:', response);
-                                $('#payment-form')[0].reset();
-                                card.clear();
+                                $('.loader').hide();
+                                // $('#payment-form')[0].reset();
+                                // card.clear();
+                                // $('.booking-page.extra-item').removeClass('highlighted');
+                                toastr.success('booking success!');
+                                const loader = document.createElement('div');
+                                loader.textContent = "Loading...";
+                                loader.style.fontSize = '18px';
+                                loader.style.textAlign = 'center';
+                                loader.style.marginTop = '20px';
+                                loader.style.position = 'fixed';
+                                loader.style.top = '50%';
+                                loader.style.left = '50%';
+                                loader.style.transform = 'translate(-50%, -50%)';
+                                loader.style.zIndex = '1000'; // Ensure it's above other content
+                                document.body.appendChild(loader);
+
+                                // Create and style the message element
+                                const messageContainer = document.createElement('div');
+                                messageContainer.textContent = "Thank you for your booking! You will be redirected shortly.";
+                                messageContainer.style.fontSize = '18px';
+                                messageContainer.style.textAlign = 'center';
+                                messageContainer.style.marginTop = '20px';
+                                document.body.appendChild(messageContainer);
+
+                                // Redirect after 5 seconds
                                 setTimeout(() => {
-                                    $('.loader').hide();
-                                    $('.booking-page.extra-item').removeClass('highlighted');
-                                    toastr.success('booking success!');
-                                    // window.location.href = '/';
-                                }, 500);
+                                    loader.remove(); // Remove loader before redirecting
+                                    window.location.href = '/thanks-booking';
+                                }, 2000);
                             },
                             error: function (xhr) {
                                 $('.loader').hide();
                                 // console.error('Booking failed:', xhr.responseText);
-                                toastr.error('Booking failed because email already exists.');
+                                toastr.error("Booking failed: You have already used the discount code 'welcome10%'.");
                             }
                         });
                     }
@@ -626,30 +653,54 @@ $(document).ready(function () {
                             discountPercentage: discountPercentage * 100, // Convert to percentage
                             ...(discountAmount ? { discountAmount: discountAmount } : {}), // Include discount amount
                             ...(couponDiscountAmount ? { couponDiscountAmount: couponDiscountAmount } : {}), // Include discount amount
+                            ...(couponDiscountCode ? { couponDiscountCode: couponDiscountCode } : {}),
                             extras: window.extrasObject,
                             totalExtras: extrasTotal.toFixed(2), // Include total extras in the data
                             finalTotal: finalTotal,
                             stripeToken: result.token.id // Include the Stripe token
                         };
+                        console.log(bookingData);
                         $.ajax({
                             url: '/booking/store',
                             method: 'POST',
                             data: bookingData,
                             success: function (response) {
                                 console.log('Booking successful:', response);
-                                $('#payment-form')[0].reset();
-                                card.clear();
+                                $('.loader').hide();
+                                // $('#payment-form')[0].reset();
+                                // card.clear();
+                                // $('.booking-page.extra-item').removeClass('highlighted');
+                                toastr.success('booking success!');
+                                const loader = document.createElement('div');
+                                loader.textContent = "Loading...";
+                                loader.style.fontSize = '18px';
+                                loader.style.textAlign = 'center';
+                                loader.style.marginTop = '20px';
+                                loader.style.position = 'fixed';
+                                loader.style.top = '50%';
+                                loader.style.left = '50%';
+                                loader.style.transform = 'translate(-50%, -50%)';
+                                loader.style.zIndex = '1000'; // Ensure it's above other content
+                                document.body.appendChild(loader);
+
+                                // Create and style the message element
+                                const messageContainer = document.createElement('div');
+                                messageContainer.textContent = "Thank you for your booking! You will be redirected shortly.";
+                                messageContainer.style.fontSize = '18px';
+                                messageContainer.style.textAlign = 'center';
+                                messageContainer.style.marginTop = '20px';
+                                document.body.appendChild(messageContainer);
+
+                                // Redirect after 5 seconds
                                 setTimeout(() => {
-                                    $('.loader').hide();
-                                    toastr.success('booking success!');
-                                    // window.location.href = '/';
-                                    $('.booking-page.extra-item').removeClass('highlighted');
-                                }, 500);
+                                    loader.remove(); // Remove loader before redirecting
+                                    window.location.href = '/thanks-booking';
+                                }, 2000);
                             },
                             error: function (xhr) {
                                 $('.loader').hide();
                                 // console.error('Booking failed:', xhr.responseText);
-                                toastr.error('Booking failed because email already exists.');
+                                toastr.error("Booking failed: You have already used the discount code 'welcome10%'.");
                             }
                         });
 

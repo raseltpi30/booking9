@@ -1,6 +1,8 @@
 $(document).ready(function () {
     console.log('DOM fully loaded and parsed');
-    $('#total-price-3').val(''); // for refresh page coupon when i refresh page coupon input will 0.
+    // $('#total-price-3').val(''); // for refresh page coupon when i refresh page coupon input will 0.
+    // $('#discount-code').val(''); // for refresh page coupon when i refresh page coupon input will 0.
+    // $('#discount-code').val(''); // for refresh page coupon when i refresh page coupon input will 0.
 
     // Extract query parameters
     const urlParams = new URLSearchParams(window.location.search);
@@ -171,7 +173,7 @@ $(document).ready(function () {
         //     $('#discount-amount').text('');
         // }
 
-       $('.apply-discount-button').on('click', function () {
+        $('.apply-discount-button').on('click', function () {
             const discountCode = $('#discount-code').val();  // Get the coupon code entered by the use
             // Coupon Discount Calculation
 
@@ -204,6 +206,8 @@ $(document).ready(function () {
                             $('#discount-code-success').html(successMessage);
                             $('.apply-discount-button').prop('disabled', true);
                             $('#discount-code').prop('disabled', true);
+
+                            $('.extra-item').addClass('disabled');
                         }
                         else {
                             // If the coupon is invalid, clear the discount display
@@ -259,7 +263,7 @@ $(document).ready(function () {
             } else if (typeOfService === "End of Lease Cleaning" && freeAddOns["End of Lease Cleaning"].includes(label)) {
                 $extra.addClass('highlighted').css('pointer-events', 'none');
             } else if (typeOfService === "Organisation by the Hour") {
-                if (label == "Organisation By the Hour $80/2 hours") {
+                if (label === "Carpet Cleaning $70/room") {
                     $extra.addClass('highlighted always-visible');
                     $counter.text('1');
                     $increaseButton.show();
@@ -276,24 +280,6 @@ $(document).ready(function () {
                     $extra.addClass('highlighted').css('pointer-events', 'none');
                 }
             }
-            // } else if (typeOfService === "Organisation by the Hour") {
-            //     if (label == "Organisation By the Hour $80/2 hours") {
-            //         $extra.addClass('highlighted always-visible');
-            //         $counter.text('1');
-            //         $increaseButton.show();
-            //         $decreaseButton.show().css('pointer-events', 'none');
-
-            //         if (!$('#select-hours-note').length) {
-            //             $('<div>', {
-            //                 id: 'select-hours-note',
-            //                 text: 'Please Select Hours',
-            //                 css: { color: 'red' }
-            //             }).appendTo($extra);
-            //         }
-            //     } else if (freeAddOns["Organisation by the Hour"].includes(label)) {
-            //         $extra.addClass('highlighted').css('pointer-events', 'none');
-            //     }
-            // }
         });
 
         calculateTotal();
@@ -396,7 +382,8 @@ $(document).ready(function () {
     let allFieldsValid = true;
     // Define the validation functions
     function validatePhoneNumber(phoneNumber) {
-        const phoneRegex = /^(\+8801|01)[3-9]\d{8}$/;
+        // const phoneRegex = /^(\+8801|01)[3-9]\d{8}$/;
+        const phoneRegex = /^\d+$/;
         return phoneRegex.test(phoneNumber);
     }
 
@@ -459,9 +446,34 @@ $(document).ready(function () {
         $('#error-message').hide();
     });
 
+    // this is for organization
+
+    let count = 0; // Initialize the counter
+
+    // Increase counter
+    $("#organisation-addon .increase").click(function () {
+        count++;
+        $("#organisation-counter").text(count);
+    });
+
+    // Decrease counter
+    $("#organisation-addon .decrease").click(function () {
+        if (count > 0) {
+            count--;
+            $("#organisation-counter").text(count);
+        }
+    });
+
+
+    // end orga
+
     $('#complete-booking-button').click(function (event) {
         event.preventDefault(); // Prevent the default form submission
 
+        let couponCode = $('#discount-code').val();
+        console.log(couponCode);
+        // Initial log for count
+        console.log('final', count);
         // Clear previous error messages
         $('.error-message').text('');
 
@@ -474,6 +486,18 @@ $(document).ready(function () {
             // Show error message if none is selected
             $('#error-message').show();
         };
+
+        let typeOfService = $('#type-of-service').val();
+        if (typeOfService === 'Organisation by the Hour') {
+            if (count === 0) {
+                alert('Please select "Organisation by the Hour $80/2 hours" quantity.');
+                allFieldsValid = false; // No hours selected
+            }
+            else {
+                allFieldsValid = true;
+            }
+        }
+
 
         if (allFieldsValid) {
             $('.loader').show();
@@ -518,52 +542,128 @@ $(document).ready(function () {
 
                     $('.loader').show();
                     // Send the token and booking data to the server
-                    const bookingData = {
-                        firstName: $('#first-name').val(),
-                        lastName: $('#last-name').val(),
-                        email: $('#email').val(),
-                        phone: $('#phone').val(),
-                        street: $('#street').val(),
-                        apt: $('#apt').val(),
-                        city: $('#city').val(),
-                        postalCode: $('#postal-code').val(),
-                        service: $('#service').val(),
-                        bathroom: $('#bathroom').val(),
-                        typeOfService: $('#type-of-service').val(),
-                        storey: $('#storey').val(),
-                        frequency: frequency,
-                        day: $('#day').val(),
-                        time: $('#time').val(),
-                        discountPercentage: discountPercentage * 100, // Convert to percentage
-                        ...(discountAmount ? { discountAmount: discountAmount } : {}), // Include discount amount
-                        ...(couponDiscountAmount ? { couponDiscountAmount: couponDiscountAmount } : {}), // Include discount amount
-                        extras: window.extrasObject,
-                        totalExtras: extrasTotal.toFixed(2), // Include total extras in the data
-                        finalTotal: finalTotal,
-                        stripeToken: result.token.id // Include the Stripe token
-                    };
+                    if (typeOfService === 'Organisation by the Hour') {
+                        // Initial log for count
+                        let extrasTotal2 = $('.extras-total').text();
 
-                    console.log(bookingData);
-                    $.ajax({
-                        url: '/booking/store',
-                        method: 'POST',
-                        data: bookingData,
-                        success: function (response) {
-                            console.log('Booking successful:', response);
-                            $('#payment-form')[0].reset();
-                            card.clear();
-                            setTimeout(() => {
+                        // Remove the dollar sign and convert to a number
+                        extrasTotal2 = parseFloat(extrasTotal2.replace(/[$,]/g, ''));
+                        const bookingData = {
+                            firstName: $('#first-name').val(),
+                            lastName: $('#last-name').val(),
+                            email: $('#email').val(),
+                            phone: $('#phone').val(),
+                            street: $('#street').val(),
+                            apt: $('#apt').val(),
+                            city: $('#city').val(),
+                            postalCode: $('#postal-code').val(),
+                            service: $('#service').val(),
+                            bathroom: $('#bathroom').val(),
+                            typeOfService: $('#type-of-service').val(),
+                            storey: $('#storey').val(),
+                            frequency: frequency,
+                            day: $('#day').val(),
+                            time: $('#time').val(),
+                            discountPercentage: discountPercentage * 100, // Convert to percentage
+                            ...(discountAmount ? { discountAmount: discountAmount } : {}), // Include discount amount
+                            ...(couponDiscountAmount ? { couponDiscountAmount: couponDiscountAmount } : {}), // Include discount amount
+                            ...(couponCode ? { couponCode: couponCode } : {}), // Include discount amount
+                            extras: window.extrasObject = {
+                                "Organisation By the Hour": { "price": count }, // Ensure 'count' is defined
+                                "Oven Cleaning": { "price": 0 },
+                                "Refrigerator Cleaning Empty": { "price": 0 },
+                                "Refrigerator Cleaning Full": { "price": 0 },
+                                "Dishwasher Cleaning": { "price": 0 },
+                                "Inside Cupboards Empty": { "price": 0 },
+                                "Window Cleaning": { "price": 0 },
+                                "Sliding Door Window": { "price": 0 },
+                                "Blind Cleaning": { "price": 0 },
+                                "High Dusting": { "price": 0 },
+                                "Garage Cleaning": { "price": 0 },
+                                "Balcony Cleaning Small": { "price": 0 },
+                                "Balcony Cleaning Large": { "price": 0 },
+                                "Change Sheets": { "price": 0 },
+                                "Shed/Pool House": { "price": 0 },
+                                "I Have Pets": { "price": 0 },
+                                "This is a hourly service show extra Price": { "price": 0 },
+                            },
+                            totalExtras: extrasTotal2, // Include total extras in the data
+                            finalTotal: finalTotal,
+                            stripeToken: result.token.id // Include the Stripe token
+                        };
+                        console.log(bookingData);
+                        $.ajax({
+                            url: '/booking/store',
+                            method: 'POST',
+                            data: bookingData,
+                            success: function (response) {
+                                console.log('Booking successful:', response);
+                                // $('#payment-form')[0].reset();
+                                // card.clear();
+                                setTimeout(() => {
+                                    $('.loader').hide();
+                                    $('.booking-page.extra-item').removeClass('highlighted');
+                                    toastr.success('booking success!');
+                                    // window.location.href = '/';
+                                }, 500);
+                            },
+                            error: function (xhr) {
                                 $('.loader').hide();
-                                toastr.success('booking success!');
-                                // window.location.href = '/';
-                            }, 500);
-                        },
-                        error: function (xhr) {
-                            $('.loader').hide();
-                            // console.error('Booking failed:', xhr.responseText);
-                            toastr.error('Booking failed because email already exists.');
-                        }
-                    });
+                                // console.error('Booking failed:', xhr.responseText);
+                                toastr.error("Booking failed: You have already used the discount code 'welcome10%'.");
+                            }
+                        });
+                    }
+                    else {
+                        const bookingData = {
+                            firstName: $('#first-name').val(),
+                            lastName: $('#last-name').val(),
+                            email: $('#email').val(),
+                            phone: $('#phone').val(),
+                            street: $('#street').val(),
+                            apt: $('#apt').val(),
+                            city: $('#city').val(),
+                            postalCode: $('#postal-code').val(),
+                            service: $('#service').val(),
+                            bathroom: $('#bathroom').val(),
+                            typeOfService: $('#type-of-service').val(),
+                            storey: $('#storey').val(),
+                            frequency: frequency,
+                            day: $('#day').val(),
+                            time: $('#time').val(),
+                            discountPercentage: discountPercentage * 100, // Convert to percentage
+                            ...(discountAmount ? { discountAmount: discountAmount } : {}), // Include discount amount
+                            ...(couponDiscountAmount ? { couponDiscountAmount: couponDiscountAmount } : {}), // Include discount amount
+                            ...(couponCode ? { couponCode: couponCode } : {}),
+                            extras: window.extrasObject,
+                            totalExtras: extrasTotal.toFixed(2), // Include total extras in the data
+                            finalTotal: finalTotal,
+                            stripeToken: result.token.id // Include the Stripe token
+                        };
+                        console.log(bookingData);
+                        $.ajax({
+                            url: '/booking/store',
+                            method: 'POST',
+                            data: bookingData,
+                            success: function (response) {
+                                console.log('Booking successful:', response);
+                                // $('#payment-form')[0].reset();
+                                // card.clear();
+                                setTimeout(() => {
+                                    $('.loader').hide();
+                                    toastr.success('booking success!');
+                                    // window.location.href = '/';
+                                    $('.booking-page.extra-item').removeClass('highlighted');
+                                }, 500);
+                            },
+                            error: function (xhr) {
+                                $('.loader').hide();
+                                // console.error('Booking failed:', xhr.responseText);
+                                toastr.error("Booking failed: You have already used the discount code 'welcome10%'.");
+                            }
+                        });
+
+                    }
                 }
             });
             // Prepare the data to be sent to the server

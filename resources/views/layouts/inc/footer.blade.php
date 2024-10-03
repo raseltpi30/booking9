@@ -42,11 +42,9 @@
                         <h3>Stay Connected</h3>
                     </div>
                     <!-- Use your custom form layout -->
-                    <form
-                        action="https://gmail.us17.list-manage.com/subscribe/post?u=fc240a5abdbc5e2841b70b522&amp;id=7e0676158c&amp;f_id=000bf6e2f0"
-                        method="post" id="mc-embedded-subscribe-form" name="mc-embedded-subscribe-form" target="_blank"
-                        novalidate>
-                        <input type="email" name="EMAIL" placeholder="What's your email?" required>
+                    <form action="{{route('subscribe')}}" method="post">
+                        @csrf
+                        <input type="email" name="email" placeholder="What's your email?" value="{{ old('email') }}" required>
                         <button type="submit">Subscribe</button>
                     </form>
                     <p>

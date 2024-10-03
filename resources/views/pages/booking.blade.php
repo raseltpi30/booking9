@@ -400,9 +400,9 @@
                             <h3 id="total-price-container" style="font-size: 1.3em">Total: <span id="total"
                                     class="book-total"></span>
                             </h3>
-                            <input type="hidden" id="total-price-input" readonly />
-                            <input type="hidden" id="total-price-2" readonly />
-                            <input type="hidden" id="total-price-3" readonly />
+                            <input type="text" id="total-price-input" readonly />
+                            <input type="text" id="total-price-2" readonly />
+                            <input type="text" id="total-price-3" readonly />
                         </div>
 
                         <!-- Credit Card Details -->
